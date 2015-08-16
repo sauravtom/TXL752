@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>
-<script src="./auto-render.min.js"></script>
+<script src="../auto-render.min.js"></script>
     <style>
       body {
         min-width: 200px;
@@ -23,7 +23,7 @@
   <body>
     <article class="markdown-body"><h2 id="markdown-preview-with-katex-support-"><a class="header-link" href="#markdown-preview-with-katex-support-"></a>Markdown Preview with KaTex support.</h2>
 <p>Twenty-four muscle groups, controlled by the various motor and sensory nerve pathways,</p>
-<p>$$ \frac{2}{2}  \infty P<em>0 = \int^{\infty}</em>{-\infty}x^2dx$$
+<p>$$ \frac{2}{2}  \infty P_0 = \int^{\infty}_{-\infty}x^2dx$$
 <img src="./adductor.png" alt="adductor"><br>The adductor pollicis is the second last red band muscle in the hand</p>
 <ol class="list">
 <li><p>Power grasp
@@ -75,6 +75,7 @@ Basically, anterior direction(front)<br>Extension : knees when standing up. incr
     </article>
     <script>
   renderMathInElement(document.body);
+  // katex.render("c = \\pm\\sqrt{a^2 + b^2}", document.body, { displayMode: true });
 </script>
   </body>
 </html>
