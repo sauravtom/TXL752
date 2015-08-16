@@ -1,2 +1,2 @@
-cp ./input/biomechanics.md ./biomechanics.md 
+cp ./biomechanics.md  ./input/
 generate-md --layout github --input ./input --output ./output

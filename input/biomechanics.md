@@ -37,3 +37,27 @@ Functional position of the hand
   3. IP joint flexed 5 degrees
 
 ![](http://moon.ouhsc.edu/dthompso/namics/gifiles/funchand.gif)Compare this figure with the ![](http://moon.ouhsc.edu/dthompso/namics/gifiles/handarch.gif)
+
+
+### Flexion and extension
+
+change of angle in body.
+Flex: biceps, knees when sitting down
+Basically, anterior direction(front)  
+Extension : knees when standing up. increase in angle between body parts
+
+### Adduction and Abduction
+
+Abduction and adduction refer to motions that move a structure away from or towards the centre of the body. The centre of the body is defined as the midsagittal plane
+
+Adduction = away from midline example, doing a split: adduction at hips, splitting toes
+
+Abduction = towards midline. example, moving toes together. For wrist, called ulnar deviation
+
+### elevation and depression
+
+Shrugging of shoulder:  extenstion of scapula
+
+### Rotation
+
+Internal: roation towards axis of body
