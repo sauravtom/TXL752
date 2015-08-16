@@ -5,7 +5,7 @@ Twenty-four muscle groups, controlled by the various motor and sensory nerve pat
 
 
 
-$$ \frac{2}{2}  \infty$$
+$$ \frac{2}{2}  \infty P_0 = \int^{\infty}_{-\infty}x^2dx$$
 ![adductor](./adductor.png)  
 The adductor pollicis is the second last red band muscle in the hand
 
