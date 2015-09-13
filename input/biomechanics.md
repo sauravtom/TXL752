@@ -61,3 +61,5 @@ Shrugging of shoulder:  extenstion of scapula
 ### Rotation
 
 Internal: roation towards axis of body
+
+http://ministryofsupply.com/blogs/news/34237764-purposeful-products-the-flux-glove
