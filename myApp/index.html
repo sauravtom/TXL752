@@ -27,7 +27,7 @@
         		<script>
 
         			var container;
-
+					var currentMeshes = [];
         			var camera, scene, renderer, controls,gui,parameters;
 
         			init();
@@ -114,7 +114,13 @@
         			}
 					function updateFabric()
 					{
-					console.log(console.log)
+						console.log(currentMeshes.length)
+						currentMeshes.forEach( function(s) {
+						     // ... do something with s ...
+
+							 scene.remove(s)
+						} );
+
 					var D = parameters.d1 + parameters.d2
 					var theta = parameters.theta
 					var ninetyMinusTheta = Math.PI/2 - theta
@@ -123,7 +129,6 @@
 					var l1 = ((p2 - D*Math.sin(theta))/Math.cos(theta)) + D*theta
 					var l2 = ((p1 - D*Math.sin(theta))/Math.cos(theta)) + D*theta
 
-
 					for (var j=0; j<10;j++)
 					{
 						var randomPoints = [];
@@ -131,36 +136,33 @@
 						{
 							if (j%2!=0)
 							{
-								var pt1 = new THREE.Vector3(2*i*p2, - D/2 , j*p1)
-								var pt2 = new THREE.Vector3(2*i*p2+D*Math.sin(theta)/2, -D*Math.cos(theta)/2 , j*p1)
-								var pt3 = new THREE.Vector3(2*i*p2+D*Math.sin(theta)/2 + l1*Math.cos(theta), -D*Math.cos(theta)/2 + l1*Math.sin(theta),j*p1)
-								var pt4 = new THREE.Vector3(2*i*p2+p2, -D*Math.cos(theta)/2 + l1*Math.sin(theta) + (D - D*Math.cos(theta))/2 , j*p1)
-								var pt5 = new THREE.Vector3(2*i*p2+p2 + D*Math.sin(theta)/2 , -D*Math.cos(theta)/2 + l1*Math.sin(theta), j*p1)
-								var pt6 = new THREE.Vector3(2*i*p2+p2 + D*Math.sin(theta)/2 + l2*Math.cos(theta), -D*Math.cos(theta)/2,j*p1)
-								var pt7 = new THREE.Vector3(2*i*p2+2*p2, -D/2,j*p1)
+								var pt1 = new THREE.Vector3(2*i*p2, - D/2 , j*p2)
+								var pt2 = new THREE.Vector3(2*i*p2+D*Math.sin(theta)/2, -D*Math.cos(theta)/2 , j*p2)
+								var pt3 = new THREE.Vector3(2*i*p2+D*Math.sin(theta)/2 + l1*Math.cos(theta), -D*Math.cos(theta)/2 + l1*Math.sin(theta),j*p2)
+								var pt4 = new THREE.Vector3(2*i*p2+p2, -D*Math.cos(theta)/2 + l1*Math.sin(theta) + (D - D*Math.cos(theta))/2 , j*p2)
+								var pt5 = new THREE.Vector3(2*i*p2+p2 + D*Math.sin(theta)/2 , -D*Math.cos(theta)/2 + l1*Math.sin(theta), j*p2)
+								var pt6 = new THREE.Vector3(2*i*p2+p2 + D*Math.sin(theta)/2 + l2*Math.cos(theta), -D*Math.cos(theta)/2,j*p2)
+								var pt7 = new THREE.Vector3(2*i*p2+2*p2, -D/2,j*p2)
 								randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5,pt6,pt7])
 							}
 							else
 							{
-								var pt1 = new THREE.Vector3(2*i*p2,  D/2 , j*p1)
-								var pt2 = new THREE.Vector3(2*i*p2+D*Math.sin(theta)/2, D*Math.cos(theta)/2 , j*p1)
-								var pt3 = new THREE.Vector3(2*i*p2+D*Math.sin(theta)/2 + l1*Math.cos(theta), D*Math.cos(theta)/2 + l1*Math.sin(theta),j*p1)
-								var pt4 = new THREE.Vector3(2*i*p2+p2, D*Math.cos(theta)/2 - l1*Math.sin(theta) - (D - D*Math.cos(theta))/2 , j*p1)
-								var pt5 = new THREE.Vector3(2*i*p2+p2 + D*Math.sin(theta)/2 , D*Math.cos(theta)/2 - l1*Math.sin(theta), j*p1)
-								var pt6 = new THREE.Vector3(2*i*p2+p2 + D*Math.sin(theta)/2 + l2*Math.cos(theta), D*Math.cos(theta)/2,j*p1)
-								var pt7 = new THREE.Vector3(2*i*p2+2*p2, D/2,j*p1)
+								var pt1 = new THREE.Vector3(2*i*p2,  D/2 , j*p2)
+								var pt2 = new THREE.Vector3(2*i*p2+D*Math.sin(theta)/2, D*Math.cos(theta)/2 , j*p2)
+								var pt3 = new THREE.Vector3(2*i*p2+D*Math.sin(theta)/2 + l1*Math.cos(theta), D*Math.cos(theta)/2 + l1*Math.sin(theta),j*p2)
+								var pt4 = new THREE.Vector3(2*i*p2+p2, D*Math.cos(theta)/2 - l1*Math.sin(theta) - (D - D*Math.cos(theta))/2 , j*p2)
+								var pt5 = new THREE.Vector3(2*i*p2+p2 + D*Math.sin(theta)/2 , D*Math.cos(theta)/2 - l1*Math.sin(theta), j*p2)
+								var pt6 = new THREE.Vector3(2*i*p2+p2 + D*Math.sin(theta)/2 + l2*Math.cos(theta), D*Math.cos(theta)/2,j*p2)
+								var pt7 = new THREE.Vector3(2*i*p2+2*p2, D/2,j*p2)
 								randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5,pt6,pt7])
 							}
 						}
-				console.log(randomPoints)
 				var randomSpline =  new THREE.SplineCurve3(randomPoints);
 					var extrudeSettings = {
 						steps			: 200,
 						bevelEnabled	: false,
 						extrudePath		: randomSpline
 					};
-
-
 
 
 					var circleRadius = 5;
@@ -177,6 +179,7 @@
 					var material2 = new THREE.MeshLambertMaterial( { color: 0xff8000, wireframe: false } );
 
 					var mesh = new THREE.Mesh( geometry, material2 );
+					currentMeshes = currentMeshes.concat(mesh)
 					scene.add(mesh)
 				}
 				for (var j=0; j<10;j++)
@@ -186,28 +189,27 @@
 					{
 						if (j%2!=0)
 						{
-							var pt1 = new THREE.Vector3( j*p1, - D/2 ,2*i*p2)
-							var pt2 = new THREE.Vector3( j*p1, -D*Math.cos(theta)/2 ,2*i*p2+D*Math.sin(theta)/2)
-							var pt3 = new THREE.Vector3(j*p1, -D*Math.cos(theta)/2 + l1*Math.sin(theta),2*i*p2+D*Math.sin(theta)/2 + l1*Math.cos(theta))
-							var pt4 = new THREE.Vector3( j*p1, -D*Math.cos(theta)/2 + l1*Math.sin(theta) + (D - D*Math.cos(theta))/2 ,2*i*p2+p2)
-							var pt5 = new THREE.Vector3(j*p1 , -D*Math.cos(theta)/2 + l1*Math.sin(theta), 2*i*p2+p2 + D*Math.sin(theta)/2)
-							var pt6 = new THREE.Vector3(j*p1, -D*Math.cos(theta)/2,2*i*p2+p2 + D*Math.sin(theta)/2 + l2*Math.cos(theta))
-							var pt7 = new THREE.Vector3(j*p1, -D/2,2*i*p2+2*p2)
+							var pt1 = new THREE.Vector3( j*p2, - D/2 ,2*i*p2)
+							var pt2 = new THREE.Vector3( j*p2, -D*Math.cos(theta)/2 ,2*i*p2+D*Math.sin(theta)/2)
+							var pt3 = new THREE.Vector3(j*p2, -D*Math.cos(theta)/2 + l1*Math.sin(theta),2*i*p2+D*Math.sin(theta)/2 + l1*Math.cos(theta))
+							var pt4 = new THREE.Vector3( j*p2, -D*Math.cos(theta)/2 + l1*Math.sin(theta) + (D - D*Math.cos(theta))/2 ,2*i*p2+p2)
+							var pt5 = new THREE.Vector3(j*p2 , -D*Math.cos(theta)/2 + l1*Math.sin(theta), 2*i*p2+p2 + D*Math.sin(theta)/2)
+							var pt6 = new THREE.Vector3(j*p2, -D*Math.cos(theta)/2,2*i*p2+p2 + D*Math.sin(theta)/2 + l2*Math.cos(theta))
+							var pt7 = new THREE.Vector3(j*p2, -D/2,2*i*p2+2*p2)
 							randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5,pt6,pt7])
 						}
 						else
 						{
-							var pt1 = new THREE.Vector3(j*p1,  D/2 ,2*i*p2 )
-							var pt2 = new THREE.Vector3(j*p1, D*Math.cos(theta)/2 , 2*i*p2+D*Math.sin(theta)/2)
-							var pt3 = new THREE.Vector3(j*p1, D*Math.cos(theta)/2 + l1*Math.sin(theta),2*i*p2+D*Math.sin(theta)/2 + l1*Math.cos(theta))
-							var pt4 = new THREE.Vector3( j*p1, D*Math.cos(theta)/2 - l1*Math.sin(theta) - (D - D*Math.cos(theta))/2 ,2*i*p2+p2)
-							var pt5 = new THREE.Vector3( j*p1 , D*Math.cos(theta)/2 - l1*Math.sin(theta),2*i*p2+p2 + D*Math.sin(theta)/2)
-							var pt6 = new THREE.Vector3(j*p1, D*Math.cos(theta)/2,2*i*p2+p2 + D*Math.sin(theta)/2 + l2*Math.cos(theta))
-							var pt7 = new THREE.Vector3(j*p1, D/2,2*i*p2+2*p2)
+							var pt1 = new THREE.Vector3(j*p2,  D/2 ,2*i*p2 )
+							var pt2 = new THREE.Vector3(j*p2, D*Math.cos(theta)/2 , 2*i*p2+D*Math.sin(theta)/2)
+							var pt3 = new THREE.Vector3(j*p2, D*Math.cos(theta)/2 + l1*Math.sin(theta),2*i*p2+D*Math.sin(theta)/2 + l1*Math.cos(theta))
+							var pt4 = new THREE.Vector3( j*p2, D*Math.cos(theta)/2 - l1*Math.sin(theta) - (D - D*Math.cos(theta))/2 ,2*i*p2+p2)
+							var pt5 = new THREE.Vector3( j*p2 , D*Math.cos(theta)/2 - l1*Math.sin(theta),2*i*p2+p2 + D*Math.sin(theta)/2)
+							var pt6 = new THREE.Vector3(j*p2, D*Math.cos(theta)/2,2*i*p2+p2 + D*Math.sin(theta)/2 + l2*Math.cos(theta))
+							var pt7 = new THREE.Vector3(j*p2, D/2,2*i*p2+2*p2)
 							randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5,pt6,pt7])
 						}
 					}
-			console.log(randomPoints)
 			var randomSpline =  new THREE.SplineCurve3(randomPoints);
 				var extrudeSettings = {
 					steps			: 200,
@@ -232,6 +234,7 @@
 				var material2 = new THREE.MeshLambertMaterial( { color: 0xff80ff, wireframe: false } );
 
 				var mesh = new THREE.Mesh( geometry, material2 );
+				currentMeshes = currentMeshes.concat(mesh)
 				scene.add(mesh)
 			}
 					}
