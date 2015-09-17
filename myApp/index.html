@@ -95,7 +95,7 @@
 						console.log(randomPoints)
 					var randomSpline =  new THREE.SplineCurve3(randomPoints);
 						var extrudeSettings = {
-							steps			: 1500,
+							steps			: 200,
 							bevelEnabled	: false,
 							extrudePath		: randomSpline
 						};
@@ -152,7 +152,7 @@
 					console.log(randomPoints)
 				var randomSpline =  new THREE.SplineCurve3(randomPoints);
 					var extrudeSettings = {
-						steps			: 500,
+						steps			: 200,
 						bevelEnabled	: false,
 						extrudePath		: randomSpline
 					};
@@ -176,150 +176,23 @@
 							var mesh = new THREE.Mesh( geometry, material2 );
 							scene.add(mesh)
 				}
-	// 					gui = new dat.GUI();
-	// 					for (var j = 0; j<10;j++)
-	// 					{
-	// 							var randomPoints = [];
-	//
-	// 	        				for ( var i = 0; i < 10; i ++ )
-	// 							{
-	// 								if(j%2 == 0)
-	// 								{
-	// 									var pt1 = new THREE.Vector3(j*20, 20*i , 10) ;
-	// 									var pt2 = new THREE.Vector3(j*20, 20*i + 10 , 0) ;
-	// 									var pt3 = new THREE.Vector3(j*20, 20*i + 20 , -10) ;
-	// 									var pt4 = new THREE.Vector3(j*20, 20*i + 20 , 0) ;
-	// 									var pt5 = new THREE.Vector3(j*20, 20*i + 40 , 10) ;
-	// 								}
-	// 								else
-	// 								{
-	// 									var pt1 = new THREE.Vector3(j*20, 20*i , -10) ;
-	// 									var pt2 = new THREE.Vector3(j*20, 20*i + 10 , 0) ;
-	// 									var pt3 = new THREE.Vector3(j*20, 20*i + 20 , 10) ;
-	// 									var pt4 = new THREE.Vector3(j*20, 20*i + 20 , 0) ;
-	// 									var pt5 = new THREE.Vector3(j*20, 20*i + 40 , -10) ;
-	// 								}
-	//
-	// 								var curve1 = new THREE.QuadraticBezierCurve3 (pt1,pt2,pt3);
-	// 								var curve2 = new THREE.QuadraticBezierCurve3 (pt3,pt4,pt5);
-	// 								randomPoints = randomPoints.concat(curve1.getPoints(10));
-	// 								randomPoints = randomPoints.concat(curve2.getPoints(10));
-	//
-	// 	        				}
-	//
-	//
-	//         				var randomSpline =  new THREE.SplineCurve3( randomPoints );
-	//
-	//         				//
-	//
-	//         				var extrudeSettings = {
-	//         					steps			: 200,
-	//         					bevelEnabled	: false,
-	//         					extrudePath		: randomSpline
-	//         				};
-	//
-	//
-	//         				var pts = [], numPts = 5;
-	//
-	// 						var circleRadius = 5;
-	// 						var shape = new THREE.Shape();
-	// 						shape.moveTo( 0, circleRadius );
-	// 						shape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );
-	// 						shape.quadraticCurveTo( circleRadius, -circleRadius, 0, -circleRadius );
-	// 						shape.quadraticCurveTo( -circleRadius, -circleRadius, -circleRadius, 0 );
-	// 						shape.quadraticCurveTo( -circleRadius, circleRadius, 0, circleRadius );
-	//
-	//
-	//         				var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-	//
-	//         				var material2 = new THREE.MeshLambertMaterial( { color: 0xff8000, wireframe: false } );
-	//
-	//         				var mesh = new THREE.Mesh( geometry, material2 );
-	//
-	//         				scene.add( mesh );
-	//
-	// 					}
-	// 					var folder1 = gui.addFolder('Position');
-	// 					parameters =
-	// {
-	// 	p1: 10, p2: 30, d1: 0,d2:20,h1:20,h2:20,theta:30,
-	//
-	// 	reset: function() { resetCube() }
-	// };
-	// 					var cubeX = folder1.add( parameters, 'p1' ).min(0).max(200).step(1).listen();
-	// 					var cubeY = folder1.add( parameters, 'p2' ).min(0).max(100).step(1).listen();
-	// 					var cubeZ = folder1.add( parameters, 'h1' ).min(0).max(200).step(1).listen();
-	// 					var cubeA = folder1.add( parameters, 'h2' ).min(0).max(200).step(1).listen();
-	// 					var cubeB = folder1.add( parameters, 'd1' ).min(0).max(200).step(1).listen();
-	// 					var cubeC = folder1.add( parameters, 'd2' ).min(0).max(200).step(1).listen();
-	// 					var theta = folder1.add( parameters, 'theta' ).min(0).max(200).step(1).listen();
-	// 					folder1.open();
-	// 					gui.open();
-	// 					for (var j = 0; j<10;j++)
-	// 					{
-	// 							var randomPoints = [];
-	//
-	// 	        				for ( var i = 0; i < 10; i ++ )
-	// 							{
-	// 								if(j%2 == 0)
-	// 								{
-	// 									var pt1 = new THREE.Vector3(20*i, 20*j , 0) ;
-	// 									var pt2 = new THREE.Vector3(20*i + 10, 20*j , 10) ;
-	// 									var pt3 = new THREE.Vector3(20*i + 20, 20*j , 0) ;
-	// 									var pt4 = new THREE.Vector3(20*i + 30, 20*j , -10) ;
-	// 									var pt5 = new THREE.Vector3(20*i + 40, 20*j , 0) ;
-	// 								}
-	// 								else
-	// 								{
-	// 									var pt1 = new THREE.Vector3(20*i, 20*j , 0) ;
-	// 									var pt2 = new THREE.Vector3(20*i + 10, 20*j , -10) ;
-	// 									var pt3 = new THREE.Vector3(20*i + 20, 20*j , 0) ;
-	// 									var pt4 = new THREE.Vector3(20*i + 30, 20*j , 10) ;
-	// 									var pt5 = new THREE.Vector3(20*i + 40, 20*j , 0) ;
-	// 								}
-	// 								var curve1 = new THREE.QuadraticBezierCurve3 (pt1,pt2,pt3);
-	// 								var curve2 = new THREE.QuadraticBezierCurve3 (pt3,pt4,pt5);
-	// 								randomPoints = randomPoints.concat(curve1.getPoints(10));
-	// 								randomPoints = randomPoints.concat(curve2.getPoints(10));
-	//
-	// 	        				}
-	//
-	//
-	//         				var randomSpline =  new THREE.SplineCurve3( randomPoints );
-	//
-	//         				//
-	//
-	//         				var extrudeSettings = {
-	//         					steps			: 200,
-	//         					bevelEnabled	: false,
-	//         					extrudePath		: randomSpline
-	//         				};
+						gui = new dat.GUI();
+						var folder1 = gui.addFolder('Position');
+						parameters =
+	{
+		p1: 10, p2: 30, d1: 0,d2:20,h1:20,h2:20,theta:30,
 
-
-	        				// var pts = [], numPts = 5;
-
-						// 	var circleRadius = 5;
-						// 	var shape = new THREE.Shape();
-						// 	shape.moveTo( 0, circleRadius );
-						// 	shape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );
-						// 	shape.quadraticCurveTo( circleRadius, -circleRadius, 0, -circleRadius );
-						// 	shape.quadraticCurveTo( -circleRadius, -circleRadius, -circleRadius, 0 );
-						// 	shape.quadraticCurveTo( -circleRadius, circleRadius, 0, circleRadius );
-						//
-						//
-	        			// 	var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-						//
-	        			// 	var material2 = new THREE.MeshLambertMaterial( { color: 0xff80ff, wireframe: false } );
-						//
-	        			// 	var mesh = new THREE.Mesh( geometry, material2 );
-						//
-	        			// 	scene.add( mesh );
-						//
-						// }
-
-
-
-
+		reset: function() { resetCube() }
+	};
+						var cubeX = folder1.add( parameters, 'p1' ).min(0).max(200).step(1).listen();
+						var cubeY = folder1.add( parameters, 'p2' ).min(0).max(100).step(1).listen();
+						var cubeZ = folder1.add( parameters, 'h1' ).min(0).max(200).step(1).listen();
+						var cubeA = folder1.add( parameters, 'h2' ).min(0).max(200).step(1).listen();
+						var cubeB = folder1.add( parameters, 'd1' ).min(0).max(200).step(1).listen();
+						var cubeC = folder1.add( parameters, 'd2' ).min(0).max(200).step(1).listen();
+						var theta = folder1.add( parameters, 'theta' ).min(0).max(200).step(1).listen();
+						folder1.open();
+						gui.open();
 
         			}
 
