@@ -58,7 +58,7 @@
         				scene = new THREE.Scene();
 						clock = new THREE.Clock();
         				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
-        				camera.position.set( 0, 0, 500 );
+        				camera.position.set( 0, 0, 200 );
 
         				controls = new THREE.TrackballControls( camera, renderer.domElement );
         				controls.minDistance = 200;
@@ -145,6 +145,10 @@
 
 										var mesh = new THREE.Mesh( geometry, material2 );
 										scene.add(mesh)
+										mesh.rotateY(Math.PI/3)
+										mesh.rotateX(Math.PI/3)
+										mesh.rotateZ(Math.PI/3)
+
 								}
 
 
@@ -202,6 +206,10 @@
 
 									var mesh = new THREE.Mesh( geometry, material2 );
 									scene.add(mesh)
+									mesh.rotateY(Math.PI/3)
+									mesh.rotateX(Math.PI/3)
+									mesh.rotateZ(Math.PI/3)
+
 								}
 
 
