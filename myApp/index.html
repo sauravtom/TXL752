@@ -59,66 +59,50 @@
 
 
 
-						var D = 10
-						var theta = Math.PI/3
-						var ninetyMinusTheta = Math.PI/2 - theta
-
-
-						for (var j=0; j<10;j++)
+						gui = new dat.GUI();
+						var folder1 = gui.addFolder('Position');
+						parameters =
 						{
-							var randomPoints = [];
-							for (var i = 0; i < 5; i++)
-							{
-								var twoDCos30 = D*Math.cos(ninetyMinusTheta)
-								if (j%2!=0)
-								{
-									var pt1 = new THREE.Vector3(2*D*Math.cos(ninetyMinusTheta)*i, -D/2 , twoDCos30*j) ;
-									var pt2 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)/2+2*D*Math.cos(ninetyMinusTheta)*i, -D *Math.sin(ninetyMinusTheta)/2 , twoDCos30*j) ;
-									var pt3 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)+2*D*Math.cos(ninetyMinusTheta)*i,0,twoDCos30*j) ;
-									var pt4 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)*(3/2)+2*D*Math.cos(ninetyMinusTheta)*i, -D* Math.sin(ninetyMinusTheta)/2 , twoDCos30*j) ;
-									var pt5 = new THREE.Vector3(2*D*Math.sin(theta)+2*D*Math.cos(ninetyMinusTheta)*i,-D/2,twoDCos30*j) ;  
-									var pt6 = new THREE.Vector3(2*D*Math.cos(ninetyMinusTheta)*(i+1), -D/2 , twoDCos30*j) ;
-									randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5])
-								}
-								else
-								{
-									var pt1 = new THREE.Vector3(2*D*Math.cos(ninetyMinusTheta)*i, 0 , twoDCos30*j) ;
-									var pt2 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)/2+2*D*Math.cos(ninetyMinusTheta)*i, -D *Math.sin(ninetyMinusTheta)/2 , twoDCos30*j) ;
-									var pt3 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)+2*D*Math.cos(ninetyMinusTheta)*i,-D/2,twoDCos30*j) ;
-									var pt4 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)*(3/2)+2*D*Math.cos(ninetyMinusTheta)*i, -D* Math.sin(ninetyMinusTheta)/2 , twoDCos30*j) ;
-									var pt5 = new THREE.Vector3(2*D*Math.sin(theta)+2*D*Math.cos(ninetyMinusTheta)*i,0,twoDCos30*j) ;  
-									var pt6 = new THREE.Vector3(2*D*Math.cos(ninetyMinusTheta)*(i+1), 0 , twoDCos30*j) ;
-									randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5])
-								}
-							}
+							p1: 10, p2: 30, d1: 0,d2:20,h1:20,h2:20,theta:30,
 
-						console.log(randomPoints)
-					var randomSpline =  new THREE.SplineCurve3(randomPoints);
-						var extrudeSettings = {
-							steps			: 200,
-							bevelEnabled	: false,
-							extrudePath		: randomSpline
+							reset: function() { resetCube() }
 						};
+						var fp1 = folder1.add( parameters, 'p1' ).min(0).max(200).step(1).listen();
+						var fp2 = folder1.add( parameters, 'p2' ).min(0).max(100).step(1).listen();
+						var fh1 = folder1.add( parameters, 'h1' ).min(0).max(200).step(1).listen();
+						var fh2 = folder1.add( parameters, 'h2' ).min(0).max(200).step(1).listen();
+						var fd1 = folder1.add( parameters, 'd1' ).min(0).max(200).step(1).listen();
+						var fd2 = folder1.add( parameters, 'd2' ).min(0).max(200).step(1).listen();
+						var ftheta = folder1.add( parameters, 'theta' ).min(0).max(200).step(1).listen();
+						folder1.open();
 
 
+						fp1.onFinishChange(updateFabric)
+						fp2.onFinishChange(updateFabric)
+						fh1.onFinishChange(updateFabric)
+						fh2.onFinishChange(updateFabric)
+						fd1.onFinishChange(updateFabric)
+						fd2.onFinishChange(updateFabric)
+						ftheta.onFinishChange(updateFabric)
+						gui.open();
+						updateFabric()
+        			}
 
+        			function animate() {
 
-						var circleRadius = 5;
-						var shape = new THREE.Shape();
-						shape.moveTo( 0, circleRadius );
-						shape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );
-						shape.quadraticCurveTo( circleRadius, -circleRadius, 0, -circleRadius );
-						shape.quadraticCurveTo( -circleRadius, -circleRadius, -circleRadius, 0 );
-						shape.quadraticCurveTo( -circleRadius, circleRadius, 0, circleRadius );
+        				requestAnimationFrame( animate );
 
+        				controls.update();
 
-								var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+        				renderer.render( scene, camera );
 
-								var material2 = new THREE.MeshLambertMaterial( { color: 0xff8000, wireframe: false } );
-
-								var mesh = new THREE.Mesh( geometry, material2 );
-								scene.add(mesh)
-					}
+        			}
+					function updateFabric()
+					{
+						console.log("updating....")
+					var D = 10
+					var theta = Math.PI/3
+					var ninetyMinusTheta = Math.PI/2 - theta
 
 
 					for (var j=0; j<10;j++)
@@ -127,29 +111,28 @@
 						for (var i = 0; i < 5; i++)
 						{
 							var twoDCos30 = D*Math.cos(ninetyMinusTheta)
-							if (j%2==0)
+							if (j%2!=0)
 							{
-								var pt1 = new THREE.Vector3(twoDCos30*j, -D/2 ,2*D*Math.cos(ninetyMinusTheta)*i ) ;
-								var pt2 = new THREE.Vector3( twoDCos30*j, -D *Math.sin(ninetyMinusTheta)/2 ,D*Math.cos(ninetyMinusTheta)/2+2*D*Math.cos(ninetyMinusTheta)*i) ;
-								var pt3 = new THREE.Vector3(twoDCos30*j,0,D*Math.cos(ninetyMinusTheta)+2*D*Math.cos(ninetyMinusTheta)*i) ;
-								var pt4 = new THREE.Vector3(twoDCos30*j, -D* Math.sin(ninetyMinusTheta)/2 , D*Math.cos(ninetyMinusTheta)*(3/2)+2*D*Math.cos(ninetyMinusTheta)*i) ;
-								var pt5 = new THREE.Vector3(twoDCos30*j,-D/2,2*D*Math.sin(theta)+2*D*Math.cos(ninetyMinusTheta)*i) ;  
-								var pt6 = new THREE.Vector3(twoDCos30*j, -D/2 ,2*D*Math.cos(ninetyMinusTheta)*(i+1) ) ;
+								var pt1 = new THREE.Vector3(2*D*Math.cos(ninetyMinusTheta)*i, -D/2 , twoDCos30*j) ;
+								var pt2 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)/2+2*D*Math.cos(ninetyMinusTheta)*i, -D *Math.sin(ninetyMinusTheta)/2 , twoDCos30*j) ;
+								var pt3 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)+2*D*Math.cos(ninetyMinusTheta)*i,0,twoDCos30*j) ;
+								var pt4 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)*(3/2)+2*D*Math.cos(ninetyMinusTheta)*i, -D* Math.sin(ninetyMinusTheta)/2 , twoDCos30*j) ;
+								var pt5 = new THREE.Vector3(2*D*Math.sin(theta)+2*D*Math.cos(ninetyMinusTheta)*i,-D/2,twoDCos30*j) ;  
+								var pt6 = new THREE.Vector3(2*D*Math.cos(ninetyMinusTheta)*(i+1), -D/2 , twoDCos30*j) ;
 								randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5])
 							}
 							else
 							{
-								var pt1 = new THREE.Vector3(twoDCos30*j, 0 ,2*D*Math.cos(ninetyMinusTheta)*i ) ;
-								var pt2 = new THREE.Vector3(twoDCos30*j, -D *Math.sin(ninetyMinusTheta)/2 ,D*Math.cos(ninetyMinusTheta)/2+2*D*Math.cos(ninetyMinusTheta)*i ) ;
-								var pt3 = new THREE.Vector3(twoDCos30*j,-D/2,D*Math.cos(ninetyMinusTheta)+2*D*Math.cos(ninetyMinusTheta)*i) ;
-								var pt4 = new THREE.Vector3(twoDCos30*j, -D* Math.sin(ninetyMinusTheta)/2 ,D*Math.cos(ninetyMinusTheta)*(3/2)+2*D*Math.cos(ninetyMinusTheta)*i ) ;
-								var pt5 = new THREE.Vector3(twoDCos30*j,0,2*D*Math.sin(theta)+2*D*Math.cos(ninetyMinusTheta)*i) ;  
-								var pt6 = new THREE.Vector3(twoDCos30*j, 0 , 2*D*Math.cos(ninetyMinusTheta)*(i+1)) ;
+								var pt1 = new THREE.Vector3(2*D*Math.cos(ninetyMinusTheta)*i, 0 , twoDCos30*j) ;
+								var pt2 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)/2+2*D*Math.cos(ninetyMinusTheta)*i, -D *Math.sin(ninetyMinusTheta)/2 , twoDCos30*j) ;
+								var pt3 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)+2*D*Math.cos(ninetyMinusTheta)*i,-D/2,twoDCos30*j) ;
+								var pt4 = new THREE.Vector3(D*Math.cos(ninetyMinusTheta)*(3/2)+2*D*Math.cos(ninetyMinusTheta)*i, -D* Math.sin(ninetyMinusTheta)/2 , twoDCos30*j) ;
+								var pt5 = new THREE.Vector3(2*D*Math.sin(theta)+2*D*Math.cos(ninetyMinusTheta)*i,0,twoDCos30*j) ;  
+								var pt6 = new THREE.Vector3(2*D*Math.cos(ninetyMinusTheta)*(i+1), 0 , twoDCos30*j) ;
 								randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5])
 							}
 						}
 
-					console.log(randomPoints)
 				var randomSpline =  new THREE.SplineCurve3(randomPoints);
 					var extrudeSettings = {
 						steps			: 200,
@@ -171,41 +154,69 @@
 
 							var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
 
-							var material2 = new THREE.MeshLambertMaterial( { color: 0xff80ff, wireframe: false } );
+							var material2 = new THREE.MeshLambertMaterial( { color: 0xff8000, wireframe: false } );
 
 							var mesh = new THREE.Mesh( geometry, material2 );
 							scene.add(mesh)
 				}
-						gui = new dat.GUI();
-						var folder1 = gui.addFolder('Position');
-						parameters =
-	{
-		p1: 10, p2: 30, d1: 0,d2:20,h1:20,h2:20,theta:30,
 
-		reset: function() { resetCube() }
-	};
-						var cubeX = folder1.add( parameters, 'p1' ).min(0).max(200).step(1).listen();
-						var cubeY = folder1.add( parameters, 'p2' ).min(0).max(100).step(1).listen();
-						var cubeZ = folder1.add( parameters, 'h1' ).min(0).max(200).step(1).listen();
-						var cubeA = folder1.add( parameters, 'h2' ).min(0).max(200).step(1).listen();
-						var cubeB = folder1.add( parameters, 'd1' ).min(0).max(200).step(1).listen();
-						var cubeC = folder1.add( parameters, 'd2' ).min(0).max(200).step(1).listen();
-						var theta = folder1.add( parameters, 'theta' ).min(0).max(200).step(1).listen();
-						folder1.open();
-						gui.open();
 
-        			}
+				for (var j=0; j<10;j++)
+				{
+					var randomPoints = [];
+					for (var i = 0; i < 5; i++)
+					{
+						var twoDCos30 = D*Math.cos(ninetyMinusTheta)
+						if (j%2==0)
+						{
+							var pt1 = new THREE.Vector3(twoDCos30*j, -D/2 ,2*D*Math.cos(ninetyMinusTheta)*i ) ;
+							var pt2 = new THREE.Vector3( twoDCos30*j, -D *Math.sin(ninetyMinusTheta)/2 ,D*Math.cos(ninetyMinusTheta)/2+2*D*Math.cos(ninetyMinusTheta)*i) ;
+							var pt3 = new THREE.Vector3(twoDCos30*j,0,D*Math.cos(ninetyMinusTheta)+2*D*Math.cos(ninetyMinusTheta)*i) ;
+							var pt4 = new THREE.Vector3(twoDCos30*j, -D* Math.sin(ninetyMinusTheta)/2 , D*Math.cos(ninetyMinusTheta)*(3/2)+2*D*Math.cos(ninetyMinusTheta)*i) ;
+							var pt5 = new THREE.Vector3(twoDCos30*j,-D/2,2*D*Math.sin(theta)+2*D*Math.cos(ninetyMinusTheta)*i) ;  
+							var pt6 = new THREE.Vector3(twoDCos30*j, -D/2 ,2*D*Math.cos(ninetyMinusTheta)*(i+1) ) ;
+							randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5])
+						}
+						else
+						{
+							var pt1 = new THREE.Vector3(twoDCos30*j, 0 ,2*D*Math.cos(ninetyMinusTheta)*i ) ;
+							var pt2 = new THREE.Vector3(twoDCos30*j, -D *Math.sin(ninetyMinusTheta)/2 ,D*Math.cos(ninetyMinusTheta)/2+2*D*Math.cos(ninetyMinusTheta)*i ) ;
+							var pt3 = new THREE.Vector3(twoDCos30*j,-D/2,D*Math.cos(ninetyMinusTheta)+2*D*Math.cos(ninetyMinusTheta)*i) ;
+							var pt4 = new THREE.Vector3(twoDCos30*j, -D* Math.sin(ninetyMinusTheta)/2 ,D*Math.cos(ninetyMinusTheta)*(3/2)+2*D*Math.cos(ninetyMinusTheta)*i ) ;
+							var pt5 = new THREE.Vector3(twoDCos30*j,0,2*D*Math.sin(theta)+2*D*Math.cos(ninetyMinusTheta)*i) ;  
+							var pt6 = new THREE.Vector3(twoDCos30*j, 0 , 2*D*Math.cos(ninetyMinusTheta)*(i+1)) ;
+							randomPoints = randomPoints.concat([pt1,pt2,pt3,pt4,pt5])
+						}
+					}
 
-        			function animate() {
 
-        				requestAnimationFrame( animate );
+			var randomSpline =  new THREE.SplineCurve3(randomPoints);
+				var extrudeSettings = {
+					steps			: 200,
+					bevelEnabled	: false,
+					extrudePath		: randomSpline
+				};
 
-        				controls.update();
 
-        				renderer.render( scene, camera );
 
-        			}
 
+				var circleRadius = 5;
+				var shape = new THREE.Shape();
+				shape.moveTo( 0, circleRadius );
+				shape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );
+				shape.quadraticCurveTo( circleRadius, -circleRadius, 0, -circleRadius );
+				shape.quadraticCurveTo( -circleRadius, -circleRadius, -circleRadius, 0 );
+				shape.quadraticCurveTo( -circleRadius, circleRadius, 0, circleRadius );
+
+
+						var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+
+						var material2 = new THREE.MeshLambertMaterial( { color: 0xff80ff, wireframe: false } );
+
+						var mesh = new THREE.Mesh( geometry, material2 );
+						scene.add(mesh)
+			}
+					}
         		</script>
 
         	</body>
