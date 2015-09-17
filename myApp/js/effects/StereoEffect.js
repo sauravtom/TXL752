@@ -1,11 +1,4 @@
-/**
- * @author alteredq / http://alteredqualia.com/
- * @authod mrdoob / http://mrdoob.com/
- * @authod arodic / http://aleksandarrodic.com/
- * @authod fonserbc / http://fonserbc.github.io/
- *
- * Off-axis stereoscopic effect based on http://paulbourke.net/stereographics/stereorender/
- */
+
 
 THREE.StereoEffect = function ( renderer ) {
 
@@ -71,7 +64,7 @@ THREE.StereoEffect = function ( renderer ) {
 		scene.updateMatrixWorld();
 
 		if ( camera.parent === undefined ) camera.updateMatrixWorld();
-	
+
 		camera.matrixWorld.decompose( _position, _quaternion, _scale );
 
 		// Effective fov of the camera
