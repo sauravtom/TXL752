@@ -60,20 +60,28 @@
 				controls.minDistance = 200;
 				controls.maxDistance = 500;
 
-				scene.add( new THREE.AmbientLight( 0xffffff ) );
+				scene.add( new THREE.AmbientLight( 0xeee ) );
 
 				var light = new THREE.PointLight( 0xffffff );
 				light.position.copy( camera.position );
 				scene.add( light );
-
-				//
+				var light = new THREE.PointLight( 0xffffff );
+				light.position.set(0,0,-500);
+				scene.add( light );
+				var light = new THREE.PointLight( 0xffffff );
+				light.position.set(0,50,-500);
+				scene.add( light );
+				var light = new THREE.PointLight( 0xffffff );
+				light.position.set(0,-50,-500);
+				scene.add( light );
+				//stuffers
 				for(var j=0;j<3;j++)
 				{
 					for(var i=0;i<3;i++)
 					{
 						var closedSpline = new THREE.ClosedSplineCurve3( [
-							new THREE.Vector3( 30*i, 20*j, 0 ),
-							new THREE.Vector3( 30*i, 20*j, 80 )
+							new THREE.Vector3( 30*i, 20*j, -10 ),
+							new THREE.Vector3( 30*i, 20*j, 90 )
 						] );
 
 						var extrudeSettings = {
@@ -100,14 +108,44 @@
 					}
 
 				}
-			
+				// binders
+				for(var i=0 ; i<2 ; i++)
+				{
+					var binderPoints = [ new THREE.Vector3(15,-5,20 + 30*i), new THREE.Vector3(15,45,20 + 30*i),new THREE.Vector3(45,-5,20 + 30*i), new THREE.Vector3(45,45,20 + 30*i)]
+					binderPoints.concat([ ])
+					var closedSpline = new THREE.ClosedSplineCurve3(binderPoints);
+
+					var extrudeSettings = {
+						steps			: 100,
+						bevelEnabled	: true,
+						extrudePath		: closedSpline
+					};
+
+					var shape = new THREE.Shape();
+					shape.moveTo(0,5);
+					shape.quadraticCurveTo( 10,5, 10, 0 );
+					shape.quadraticCurveTo(10,-5 , 0,-5 );
+					shape.quadraticCurveTo(-10,-5,  -10,0 );
+					shape.quadraticCurveTo( -10,5, 0,5);
+
+
+					var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
+
+					var material = new THREE.MeshLambertMaterial( { color: 0x00ff00, wireframe: false } );
+
+					var mesh = new THREE.Mesh( geometry, material );
+
+					scene.add( mesh );
+
+				}
+				//fillers
 				for(var j=0;j<3;j++)
 				{
-					for(var i=0;i<3;i++)
+					for(var i=0;i<2;i++)
 					{
 						var closedSpline = new THREE.ClosedSplineCurve3( [
-							new THREE.Vector3( 0  ,10+20*i, 30*j ),
-							new THREE.Vector3( 80,10+20*i, 30*j)
+							new THREE.Vector3( -10  ,10+20*i, 40*j ),
+							new THREE.Vector3( 70,10+20*i, 40*j)
 						] );
 
 						var extrudeSettings = {
