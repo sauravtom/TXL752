@@ -57,10 +57,10 @@
 				camera.position.set( 0, 0, 500 );
 
 				controls = new THREE.TrackballControls( camera, renderer.domElement );
-				controls.minDistance = 200;
+				controls.minDistance = 20;
 				controls.maxDistance = 500;
 
-				scene.add( new THREE.AmbientLight( 0xeee ) );
+				scene.add( new THREE.AmbientLight( 0xffffff ) );
 
 				var light = new THREE.PointLight( 0xffffff );
 				light.position.copy( camera.position );
@@ -74,19 +74,21 @@
 				var light = new THREE.PointLight( 0xffffff );
 				light.position.set(0,-50,-500);
 				scene.add( light );
+
+				
 				//stuffers
 				for(var j=0;j<3;j++)
 				{
 					for(var i=0;i<3;i++)
 					{
-						var closedSpline = new THREE.ClosedSplineCurve3( [
+						var closedSpline = new THREE.SplineCurve3( [
 							new THREE.Vector3( 30*i, 20*j, -10 ),
 							new THREE.Vector3( 30*i, 20*j, 90 )
 						] );
 
 						var extrudeSettings = {
 							steps			: 100,
-							bevelEnabled	: true,
+							bevelEnabled	: false,
 							extrudePath		: closedSpline
 						};
 
@@ -100,7 +102,7 @@
 
 						var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
 
-						var material = new THREE.MeshLambertMaterial( { color: 0xb00000, wireframe: false } );
+						var material = new THREE.MeshLambertMaterial( { color: 0xff0000, wireframe: false } );
 
 						var mesh = new THREE.Mesh( geometry, material );
 
@@ -109,15 +111,31 @@
 
 				}
 				// binders
-				for(var i=0 ; i<2 ; i++)
+				for(var i=0 ; i<1 ; i++)
+
 				{
-					var binderPoints = [ new THREE.Vector3(15,-5,20 + 30*i), new THREE.Vector3(15,45,20 + 30*i),new THREE.Vector3(45,-5,20 + 30*i), new THREE.Vector3(45,45,20 + 30*i)]
-					binderPoints.concat([ ])
-					var closedSpline = new THREE.ClosedSplineCurve3(binderPoints);
+					var binderPoints = [ new THREE.Vector3(15,-5,20 + 40*i), new THREE.Vector3(15,40,20 + 40*i)]
+					var curve = new THREE.QuadraticBezierCurve3(
+						new THREE.Vector3( 15, 40, 20 ),
+						new THREE.Vector3( 15, 50, 20 ),
+						new THREE.Vector3( 30, 50, 20 )
+					);
+
+					binderPoints = binderPoints.concat(curve.getPoints( 20 ).slice(1,18))
+					var curve = new THREE.QuadraticBezierCurve3(
+						new THREE.Vector3( 30, 50, 20 ),
+						new THREE.Vector3( 45, 50, 20 ),
+						new THREE.Vector3( 45, 40, 20 )
+					);
+					binderPoints = binderPoints.concat(curve.getPoints( 20 ).slice(1,19))
+					binderPoints = binderPoints.concat([new THREE.Vector3(45, 40, 20),new THREE.Vector3(45,-5,20 + 40*i)])
+					
+					console.log(binderPoints)
+					var closedSpline = new THREE.SplineCurve3(binderPoints);
 
 					var extrudeSettings = {
-						steps			: 100,
-						bevelEnabled	: true,
+						steps			: 200,
+						bevelEnabled	: false,
 						extrudePath		: closedSpline
 					};
 
@@ -143,14 +161,14 @@
 				{
 					for(var i=0;i<2;i++)
 					{
-						var closedSpline = new THREE.ClosedSplineCurve3( [
+						var closedSpline = new THREE.SplineCurve3( [
 							new THREE.Vector3( -10  ,10+20*i, 40*j ),
 							new THREE.Vector3( 70,10+20*i, 40*j)
 						] );
 
 						var extrudeSettings = {
 							steps			: 100,
-							bevelEnabled	: true,
+							bevelEnabled	: false,
 							extrudePath		: closedSpline
 						};
 
@@ -164,7 +182,7 @@
 
 						var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
 
-						var material = new THREE.MeshLambertMaterial( { color: 0xff00ff, wireframe: false } );
+						var material = new THREE.MeshLambertMaterial( { color: 0x0000ff, wireframe: false } );
 
 						var mesh = new THREE.Mesh( geometry, material );
 
