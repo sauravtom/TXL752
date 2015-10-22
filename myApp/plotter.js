@@ -26,12 +26,12 @@ function init() {
 
 	scene = new THREE.Scene();
 
-	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
-	camera.position.set( 0, 0, 2000 );
+	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+	camera.position.set( 0, 0, 1000 );
 
 	controls = new THREE.TrackballControls( camera, renderer.domElement );
 	controls.minDistance = 20;
-	controls.maxDistance = 500;
+	controls.maxDistance = 2200;
 
 	scene.add( new THREE.AmbientLight( 0xeee) );
 
@@ -45,8 +45,8 @@ function init() {
 	var fpi = 1/(4*a)
 	var bpi = 1/(4*a)
 	var interLayerDistance = (4*b)
-	var noOfLayers = 4
-	var noOfRepeats = 8
+	var noOfLayers = 3
+	var noOfRepeats = 7
 	//stuffers
 
 	for (var i=0; i<noOfLayers ; i++ )
@@ -135,7 +135,7 @@ for(var i=0 ; i<noOfRepeats-1; i++)
 				points3d = points3d.concat([ new THREE.Vector3(3*(a+b) + 2/spi*j, (noOfLayers-1)*(4*b) - 2*b ,2*a + 1/(bpi)*i),
 					new THREE.Vector3(3*(a+b) + 2/spi*j,2*b, 2*a + 1/(bpi)*i)])
 
-				
+
 
 binderPoints = binderPoints.concat(points3d)
 
@@ -177,7 +177,7 @@ binderPoints = binderPoints.concat(points3d)
 				points3d = points3d.concat([
 					new THREE.Vector3(3*(a+b) + 2/spi*j,2*b, 2*a + 1/(bpi)*i)],new THREE.Vector3(3*(a+b) + 2/spi*j, (noOfLayers-1)*(4*b) - 2*b ,2*a + 1/(bpi)*i))
 
-				
+
 binderPoints = binderPoints.concat(points3d)
 /*
 				binderPoints = binderPoints.concat( new THREE.QuadraticBezierCurve3(
@@ -257,7 +257,7 @@ binderPoints = binderPoints.concat(points3d)
 		var mesh = new THREE.Mesh( geometry, material );
 
 		scene.add( mesh );
-		
+
 
 	}
 
