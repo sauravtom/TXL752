@@ -39,34 +39,33 @@ function init() {
 	scene.add( light );
 
 
-var x=Math.PI/6
+	var x=Math.PI/6// angleOfBinder
 	var a=22,ar=2
 	var b = a/ar
-	var d =b
-	var spi = 1/(2*(a+d*math.sin(x)))
-	var fpi = 1/(4*a)
-	var bpi = 1/(4*a)
+	var minorBinderRad = b
+	var majorBinderRad = a
+	var spi = 1/(2*(a+minorBinderRad*math.sin(x)))
+	var fpi = 1/(2*majorBinderRad + 2*a)
+	var bpi = 1/(2*majorBinderRad + 2*a)
 	var interLayerDistance = (4*b)
 	var noOfLayers = 3
 	var noOfRepeats = 7
 	//stuffers
-	var offset=3
 
 
 	for (var i=0; i<noOfLayers ; i++ )
 	{
-
 		for(var j=0; j<noOfRepeats ; j++)
 		{
 			if(i%2==0){
 			var closedSpline = new THREE.SplineCurve3( [
 				new THREE.Vector3( 1/spi*j, interLayerDistance*i, -a ),
-				new THREE.Vector3( 1/spi*j, interLayerDistance*i, (noOfRepeats+1)/spi)
+				new THREE.Vector3( 1/spi*j, interLayerDistance*i, (noOfRepeats-1)/fpi + a)
 			] );
 			}else{
 			var closedSpline = new THREE.SplineCurve3( [
-				new THREE.Vector3( 1/spi*j + a+d*math.sin(x), interLayerDistance*i, -a ),
-				new THREE.Vector3( 1/spi*j +a+d*math.sin(x), interLayerDistance*i, (noOfRepeats+1)/spi)
+				new THREE.Vector3( 1/spi*j + a+minorBinderRad*math.sin(x), interLayerDistance*i, -a ),
+				new THREE.Vector3( 1/spi*j +a+minorBinderRad*math.sin(x), interLayerDistance*i, (noOfRepeats-1)/fpi + a)
 			] );
 			}
 			var extrudeSettings = {
