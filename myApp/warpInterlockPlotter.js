@@ -15,7 +15,7 @@ function init() {
 	info.style.textAlign = 'center';
 	info.style.color = '#fff';
 	info.style.link = '#f80';
-	info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> webgl - geometry extrude shapes';
+	info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> warp-interlock webgl - geometry extrude shapes';
 	document.body.appendChild( info );
 
 	renderer = new THREE.WebGLRenderer();
@@ -39,26 +39,36 @@ function init() {
 	scene.add( light );
 
 
+var x=Math.PI/6
 	var a=22,ar=2
 	var b = a/ar
-	var spi = 1/(2*(a+a/ar))
+	var d =b
+	var spi = 1/(2*(a+d*math.sin(x)))
 	var fpi = 1/(4*a)
 	var bpi = 1/(4*a)
 	var interLayerDistance = (4*b)
 	var noOfLayers = 3
 	var noOfRepeats = 7
 	//stuffers
+	var offset=3
+
 
 	for (var i=0; i<noOfLayers ; i++ )
 	{
 
 		for(var j=0; j<noOfRepeats ; j++)
 		{
+			if(i%2==0){
 			var closedSpline = new THREE.SplineCurve3( [
 				new THREE.Vector3( 1/spi*j, interLayerDistance*i, -a ),
 				new THREE.Vector3( 1/spi*j, interLayerDistance*i, (noOfRepeats+1)/spi)
 			] );
-
+			}else{
+			var closedSpline = new THREE.SplineCurve3( [
+				new THREE.Vector3( 1/spi*j + a+d*math.sin(x), interLayerDistance*i, -a ),
+				new THREE.Vector3( 1/spi*j +a+d*math.sin(x), interLayerDistance*i, (noOfRepeats+1)/spi)
+			] );
+			}
 			var extrudeSettings = {
 				steps			: 100,
 				bevelEnabled	: false,
