@@ -39,7 +39,7 @@ function init() {
 	scene.add( light );
 
 
-	var x=Math.PI/4// angleOfBinder
+	var x=Math.PI/5          	// angleOfBinder
 	var a=22,ar=2
 	var b = a/ar
 	var minorBinderRad = b
@@ -50,6 +50,10 @@ function init() {
 	var interLayerDistance = (4*b)
 	var noOfLayers = 3
 	var noOfRepeats = 7
+
+	console.log(find_x(minorBinderRad,b)+ " sd")
+	x=find_x(minorBinderRad,b)-a/(b*4)
+	console.log(x + " angle")
 	//stuffers
 var y = math.acot((a/b)*math.tan(x))
 var lambda= (b*math.sin(y)/math.tan(x))-(a-a*math.cos(y))
@@ -57,8 +61,8 @@ console.log(8*lambda)
 console.log(a)
 console.log(y)
 console.log(math.sin(x))
-console.log(math.sec(x))
-var spi = 1/(2*(a+minorBinderRad*math.sec(x)))
+console.log(math.csc(x))
+var spi = 1/(2*(a+minorBinderRad*math.csc(x)))
 
 	for (var i=0; i<noOfLayers ; i++ )
 	{
@@ -71,8 +75,8 @@ var spi = 1/(2*(a+minorBinderRad*math.sec(x)))
 			] );
 			}else{
 			var closedSpline = new THREE.SplineCurve3( [
-				new THREE.Vector3( 1/spi*j + a+minorBinderRad*math.sec(x), interLayerDistance*i, -a ),
-				new THREE.Vector3( 1/spi*j +a+minorBinderRad*math.sec(x), interLayerDistance*i, (noOfRepeats-1)/fpi + a)
+				new THREE.Vector3( 1/spi*j + a+minorBinderRad*math.csc(x), interLayerDistance*i, -a ),
+				new THREE.Vector3( 1/spi*j +a+minorBinderRad*math.csc(x), interLayerDistance*i, (noOfRepeats-1)/fpi + a)
 			] );
 			}
 			var extrudeSettings = {
@@ -99,20 +103,24 @@ var spi = 1/(2*(a+minorBinderRad*math.sec(x)))
 
 		}
 	}
+	var hypo=minorBinderRad/math.sin(x+y)
+	var z= Math.PI/2-x;
+	var ex_x=(a*math.cos(y)+minorBinderRad*math.sin(x))
+	var ex_y=(b*math.sin(y)+minorBinderRad*math.cos(x))
 	// binders
 	// for(var i=0 ; i<noOfRepeats-1 ; i++)
-for(var i=0 ; i<noOfRepeats-1; i++)
+for(var i=0 ; i<6; i++)
 	{
 		var binderPoints = []
 
 
 		// for(var j=0; j<=(noOfRepeats-1)/4 ; j++)
-		for(var j=0; j<=(noOfRepeats-1)/4 ; j++)
+		for(var j=0; j<(noOfRepeats-1)/4 ; j++)
 		{
 
 			var dist = 4*b
 
-			if(i%2 == 0)
+			if(i%4 == 0 )
 			{
 
 								var curve = new THREE.EllipseCurve( 4/spi*j, 0, // ax, aY
@@ -130,10 +138,10 @@ for(var i=0 ; i<noOfRepeats-1; i++)
 									points3d = points3d.concat([new THREE.Vector3(pts[k].x,pts[k].y,2*a + 1/(bpi)*i)])
 								}
 
-points3d = points3d.concat([new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x)+a + 4/spi*j, b*math.sin(y)+minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i),
-									new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x) +2*a+2*minorBinderRad*math.sec(x) + 4/spi*j, (noOfLayers-1)*(4*b)/math.tan(x) - b*math.sin(y)-minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i)])
+points3d = points3d.concat([new THREE.Vector3(ex_x + 4/spi*j, -ex_y ,2*a + 1/(bpi)*i),
+									new THREE.Vector3(-ex_x +4*a+4*minorBinderRad*math.csc(x) + 4/spi*j, (noOfLayers-1)*(4*b)+ex_y ,2*a + 1/(bpi)*i)])
 
-									var curve2 = new THREE.EllipseCurve( (2*a+2*minorBinderRad)*(2)+a+4/spi*j, (noOfLayers-1)*(4*b), // ax, aY
+									var curve2 = new THREE.EllipseCurve( (2*a+2*minorBinderRad*math.csc(x))*(2)+4/spi*j, (noOfLayers-1)*(4*b), // ax, aY
 													a+minorBinderRad, 2*minorBinderRad, // xRadius, yRadius
 												 -y+Math.PI,y,// aStartAngle, aEndAngle
 													true, // aClockwise
@@ -148,17 +156,17 @@ points3d = points3d.concat([new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.
 						points3d = points3d.concat([new THREE.Vector3(pts2[k].x,pts2[k].y,2*a + 1/(bpi)*i)])
 					}
 					points3d = points3d.concat([
-						new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x)+a +4*(a+minorBinderRad*math.sec(x))+4/spi*j, (noOfLayers-1)*(4*b)/math.tan(x) - b*math.sin(y)-minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i),
-						new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x)+4*(a+minorBinderRad*math.sec(x))+2*a+2*minorBinderRad*math.sec(x) +4/spi*j, +b*math.sin(y)+minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i)])
+						new THREE.Vector3(ex_x +4*(a+minorBinderRad*math.csc(x))+4/spi*j, (noOfLayers-1)*(4*b) + ex_y ,2*a + 1/(bpi)*i),
+						new THREE.Vector3(-ex_x+8*(a+minorBinderRad*math.csc(x)) +4/spi*j, -ex_y ,2*a + 1/(bpi)*i)])
 
 binderPoints = binderPoints.concat(points3d)
 
 			}
-			else
+			else if(i%4==1)
 			{
-				var curve = new THREE.EllipseCurve( 4/spi*j, (noOfLayers-1)*(4*b), // ax, aY
+				var curve = new THREE.EllipseCurve( (2*a + 2*minorBinderRad*math.csc(x))*(-1)+4/spi*j, (noOfLayers-1)*(4*b), // ax, aY
 								a+minorBinderRad, 2*minorBinderRad, // xRadius, yRadius
-							 -y+Math.PI,+y,// aStartAngle, aEndAngle
+							 -y+Math.PI,y,// aStartAngle, aEndAngle
 								true, // aClockwise
 								0 // aRotation
 								)
@@ -170,37 +178,110 @@ binderPoints = binderPoints.concat(points3d)
 				{
 					points3d = points3d.concat([new THREE.Vector3(pts[k].x,pts[k].y,2*a + 1/(bpi)*i)])
 				}
-				points3d = points3d.concat([
-					new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x) +a + 4/spi*j, (noOfLayers-1)*(4*b)/math.tan(x) - b*math.sin(y)-minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i)],
-				new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x) +2*a+2*minorBinderRad*math.sec(x)+ 4/spi*j, +b*math.sin(y)+minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i))
-				var curve2 = new THREE.EllipseCurve( (2*a+2*minorBinderRad)*(2)+a+4/spi*j, 0, // ax, aY
-								a+minorBinderRad, 2*minorBinderRad, // xRadius, yRadius
-							 +y+Math.PI,-y,// aStartAngle, aEndAngle
-								false, // aClockwise
-								0 // aRotation
-								)
+
+				points3d = points3d.concat([new THREE.Vector3((2*a + 2*minorBinderRad*math.csc(x))*(-1)+ex_x + 4/spi*j, (noOfLayers-1)*(4*b)+ex_y,2*a + 1/(bpi)*i),
+					new THREE.Vector3((2*a + 2*minorBinderRad*math.csc(x))*(-1)-ex_x +4*a+4*minorBinderRad*math.csc(x) + 4/spi*j, -ex_y  ,2*a + 1/(bpi)*i)])
+
+					var curve2 = new THREE.EllipseCurve( (2*a + 2*minorBinderRad*math.csc(x))*(-1)+(2*a+2*minorBinderRad*math.csc(x))*(2)+4/spi*j, 0, // ax, aY
+									a+minorBinderRad, 2*minorBinderRad, // xRadius, yRadius
+								 y+Math.PI,-y,// aStartAngle, aEndAngle
+									false, // aClockwise
+									0 // aRotation
+									)
 				var pts2=[]
 				pts2=pts2.concat(curve2.getPoints(10))
 				//2D to 3D conversion
 				//var points3d=[]
 				for(var k=0;k<11;k++)
 				{
-					points3d = points3d.concat([new THREE.Vector3(pts2[k].x,pts2[k].y,2*a + 1/(bpi)*i)])
+				points3d = points3d.concat([new THREE.Vector3(pts2[k].x,pts2[k].y,2*a + 1/(bpi)*i)])
 				}
-
 				points3d = points3d.concat([
-					new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x)+a +4*(a+minorBinderRad*math.sec(x)) +4/spi*j, +b*math.sin(y)+minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i)
-,new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x) +4*(a+minorBinderRad*math.sec(x))+2*a+2*minorBinderRad*math.sec(x)+4/spi*j, (noOfLayers-1)*(4*b)/math.tan(x) - b*math.sin(y)-minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i)
-				])
-/*
-points3d = points3d.concat([
-	new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x)+a +4*(a+minorBinderRad*math.sec(x))+4/spi*j, (noOfLayers-1)*(4*b)/math.tan(x) - b*math.sin(y)-minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i),
-	new THREE.Vector3(a*math.cos(y)+minorBinderRad*math.sin(x)+4*(a+minorBinderRad*math.sec(x))+2*a+2*minorBinderRad*math.sec(x) +4/spi*j, +b*math.sin(y)+minorBinderRad*math.cos(x) ,2*a + 1/(bpi)*i)])
+				new THREE.Vector3((2*a + 2*minorBinderRad*math.csc(x))*(-1)+ex_x +4*(a+minorBinderRad*math.csc(x))+4/spi*j, -ex_y ,2*a + 1/(bpi)*i),
+				new THREE.Vector3((2*a + 2*minorBinderRad*math.csc(x))*(-1)-ex_x+8*(a+minorBinderRad*math.csc(x)) +4/spi*j, (noOfLayers-1)*(4*b) + ex_y ,2*a + 1/(bpi)*i)])
 
-*/
 binderPoints = binderPoints.concat(points3d)
+			}			else if(i%4==2)
+						{
 
-			}
+							var curve = new THREE.EllipseCurve( 4/spi*j, (noOfLayers-1)*(4*b), // ax, aY
+											a+minorBinderRad, 2*minorBinderRad, // xRadius, yRadius
+										 -y+Math.PI,y,// aStartAngle, aEndAngle
+											true, // aClockwise
+											0 // aRotation
+											)
+							var pts=[]
+							pts=pts.concat(curve.getPoints(10))
+							//2D to 3D conversion
+							var points3d=[]
+							for(var k=0;k<11;k++)
+							{
+								points3d = points3d.concat([new THREE.Vector3(pts[k].x,pts[k].y,2*a + 1/(bpi)*i)])
+							}
+							points3d = points3d.concat([new THREE.Vector3(ex_x + 4/spi*j, (noOfLayers-1)*(4*b)+ex_y ,2*a + 1/(bpi)*i),
+												new THREE.Vector3(-ex_x +4*a+4*minorBinderRad*math.csc(x) + 4/spi*j, -ex_y ,2*a + 1/(bpi)*i)])
+
+												var curve2 = new THREE.EllipseCurve( (2*a+2*minorBinderRad*math.csc(x))*(2)+4/spi*j, 0, // ax, aY
+																a+minorBinderRad, 2*minorBinderRad, // xRadius, yRadius
+															 y+Math.PI,-y,// aStartAngle, aEndAngle
+																false, // aClockwise
+																0 // aRotation
+																)
+								var pts2=[]
+								pts2=pts2.concat(curve2.getPoints(10))
+								//2D to 3D conversion
+								//var points3d=[]
+								for(var k=0;k<11;k++)
+								{
+									points3d = points3d.concat([new THREE.Vector3(pts2[k].x,pts2[k].y,2*a + 1/(bpi)*i)])
+								}
+								points3d = points3d.concat([
+									new THREE.Vector3(ex_x +4*(a+minorBinderRad*math.csc(x))+4/spi*j, -ex_y ,2*a + 1/(bpi)*i),
+									new THREE.Vector3(-ex_x+8*(a+minorBinderRad*math.csc(x)) +4/spi*j, (noOfLayers-1)*(4*b) + ex_y ,2*a + 1/(bpi)*i)])
+
+
+			binderPoints = binderPoints.concat(points3d)
+		}			else if(i%4==3)
+									{
+
+										var curve = new THREE.EllipseCurve( (2*a + 2*minorBinderRad*math.csc(x))*(-1)+4/spi*j, 0, // ax, aY
+														a+minorBinderRad, 2*minorBinderRad, // xRadius, yRadius
+													 y+Math.PI,-y,// aStartAngle, aEndAngle
+														false, // aClockwise
+														0 // aRotation
+														)
+										var pts=[]
+										pts=pts.concat(curve.getPoints(10))
+										//2D to 3D conversion
+										var points3d=[]
+										for(var k=0;k<11;k++)
+										{
+											points3d = points3d.concat([new THREE.Vector3(pts[k].x,pts[k].y,2*a + 1/(bpi)*i)])
+										}
+
+						points3d = points3d.concat([new THREE.Vector3((2*a + 2*minorBinderRad*math.csc(x))*(-1)+ex_x + 4/spi*j, -ex_y ,2*a + 1/(bpi)*i),
+											new THREE.Vector3((2*a + 2*minorBinderRad*math.csc(x))*(-1)-ex_x +4*a+4*minorBinderRad*math.csc(x) + 4/spi*j, (noOfLayers-1)*(4*b)+ex_y ,2*a + 1/(bpi)*i)])
+
+											var curve2 = new THREE.EllipseCurve( (2*a + 2*minorBinderRad*math.csc(x))*(-1)+(2*a+2*minorBinderRad*math.csc(x))*(2)+4/spi*j, (noOfLayers-1)*(4*b), // ax, aY
+															a+minorBinderRad, 2*minorBinderRad, // xRadius, yRadius
+														 -y+Math.PI,y,// aStartAngle, aEndAngle
+															true, // aClockwise
+															0 // aRotation
+															)
+							var pts2=[]
+							pts2=pts2.concat(curve2.getPoints(10))
+							//2D to 3D conversion
+							//var points3d=[]
+							for(var k=0;k<11;k++)
+							{
+								points3d = points3d.concat([new THREE.Vector3(pts2[k].x,pts2[k].y,2*a + 1/(bpi)*i)])
+							}
+							points3d = points3d.concat([
+								new THREE.Vector3((2*a + 2*minorBinderRad*math.csc(x))*(-1)+ex_x +4*(a+minorBinderRad*math.csc(x))+4/spi*j, (noOfLayers-1)*(4*b) + ex_y ,2*a + 1/(bpi)*i),
+								new THREE.Vector3((2*a + 2*minorBinderRad*math.csc(x))*(-1)-ex_x+8*(a+minorBinderRad*math.csc(x)) +4/spi*j, -ex_y ,2*a + 1/(bpi)*i)])
+
+						binderPoints = binderPoints.concat(points3d)
+									}
 		}
 		var closedSpline = new THREE.SplineCurve3(binderPoints);
 
@@ -268,7 +349,35 @@ binderPoints = binderPoints.concat(points3d)
 
 
 }
+function calc(x,d,b)
+{
+    return math.cot(x) - d/b*math.sin(x)/4
+}
+function find_x(d,b){
+var start = 0
+var end = Math.PI/2
 
+var precision = 0.001
+start = start + precision
+end = end - precision
+
+while (end - start > precision)
+{
+    var mid = (start + end)/2
+    //console.log((mid));
+    if(calc(mid,d,b)<0)
+    {
+        end = mid
+    }
+    else
+    {
+        start = mid
+    }
+
+
+}
+return mid
+}
 
 function animate() {
 
