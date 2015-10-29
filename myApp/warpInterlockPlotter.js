@@ -43,7 +43,7 @@ function init() {
 	var a=22,ar=2
 	var b = a/ar
 	var minorBinderRad = b
-	var majorBinderRad = a
+	var majorBinderRad = b
 
 	var fpi = 1/(2*majorBinderRad + 2*a)
 	var bpi = 1/(2*majorBinderRad + 2*a)
