@@ -43,7 +43,7 @@ function init() {
 	var a=22,ar=2
 	var b = a/ar
 	var minorBinderRad = b
-	var majorBinderRad = b
+	var majorBinderRad = a
 
 	var fpi = 1/(2*majorBinderRad + 2*a)
 	var bpi = 1/(2*majorBinderRad + 2*a)
@@ -108,6 +108,8 @@ var spi = 1/(2*(a+minorBinderRad*math.csc(x)))
 	var z= Math.PI/2-x;
 	var ex_x=(a*math.cos(y)+minorBinderRad*math.sin(x))
 	var ex_y=(b*math.sin(y)+minorBinderRad*math.cos(x))
+	var chutiyaY = minorBinderRad * math.sin(x)
+	var chutiyaX = minorBinderRad * math.cos(x)
 	// binders
 	// for(var i=0 ; i<noOfRepeats-1 ; i++)
 for(var i=0 ; i<6; i++)
@@ -140,12 +142,12 @@ for(var i=0 ; i<6; i++)
 								}
 //[new THREE.Vector3(pts[10].x,pts[10].y,2*a + 1/(bpi)*i),new THREE.Vector3()]
 
-//points3d = points3d.concat([new THREE.Vector3(ex_x+ 4/spi*j,-ex_y+ 0,2*a + 1/(bpi)*i)])
+// points3d = points3d.concat([new THREE.Vector3(ex_x+ 4/spi*j,-ex_y+ 0,2*a + 1/(bpi)*i)])
 
-points3d = points3d.concat([new THREE.Vector3(a+minorBinderRad*math.csc(x)+minorBinderRad/2 + 4/spi*j, minorBinderRad/2,2*a + 1/(bpi)*i),
-									new THREE.Vector3(3*a+3*minorBinderRad*math.csc(x)-minorBinderRad/2 + 4/spi*j, (noOfLayers-1)*(4*b) -minorBinderRad/2,2*a + 1/(bpi)*i)])
+points3d = points3d.concat([new THREE.Vector3(a+minorBinderRad*math.csc(x) + 4/spi*j + 2*chutiyaX, 0 + 2*chutiyaY,2*a + 1/(bpi)*i),
+	new THREE.Vector3(3*a+3*minorBinderRad*math.csc(x) + 4/spi*j - 1.5*chutiyaX, (noOfLayers-1)*(4*b) -1.5*chutiyaY,2*a + 1/(bpi)*i)])
 
-//points3d = points3d.concat([new THREE.Vector3(-ex_x +4*a+4*minorBinderRad*math.csc(x) + 4/spi*j, (noOfLayers-1)*(4*b)+ex_y ,2*a + 1/(bpi)*i)])
+// points3d = points3d.concat([new THREE.Vector3(-ex_x +4*a+4*minorBinderRad*math.csc(x) + 4/spi*j, (noOfLayers-1)*(4*b)+ex_y ,2*a + 1/(bpi)*i)])
 
 									var curve2 = new THREE.EllipseCurve( (2*a+2*minorBinderRad*math.csc(x))*(2)+4/spi*j, (noOfLayers-1)*(4*b), // ax, aY
 													a+minorBinderRad, b+minorBinderRad, // xRadius, yRadius
@@ -325,10 +327,10 @@ binderPoints = binderPoints.concat(points3d)
 
 		var shape = new THREE.Shape();
 		shape.moveTo(0,minorBinderRad);
-		shape.quadraticCurveTo( a,minorBinderRad, a,0 );
-		shape.quadraticCurveTo( a,-minorBinderRad, 0,-minorBinderRad);
-		shape.quadraticCurveTo( -a,-minorBinderRad, -a,0 );
-		shape.quadraticCurveTo( -a,minorBinderRad, 0,minorBinderRad);
+		shape.quadraticCurveTo( majorBinderRad,minorBinderRad, majorBinderRad,0 );
+		shape.quadraticCurveTo( majorBinderRad,-minorBinderRad, 0,-minorBinderRad);
+		shape.quadraticCurveTo( -majorBinderRad,-minorBinderRad, -majorBinderRad,0 );
+		shape.quadraticCurveTo( -majorBinderRad,minorBinderRad, 0,minorBinderRad);
 
 
 		var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
