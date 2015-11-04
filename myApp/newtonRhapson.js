@@ -94,9 +94,12 @@ function psiToPhi(psi)
  {
      return math.asin(math.sin(3.14/4 + psi/2)/0.75)
 }
-
+var x_arr= []
+var y_arr= []
 for (var i = 0; i<100 ; i++)
 {
     phi = 0.558 + (6*3.14/2 - 0.558)/100*i
-    console.log(x(phi));
+    x_arr.push(phi);
+    y_arr.push(phi);
+    //console.log(x(phi));
 }
