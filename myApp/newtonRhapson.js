@@ -44,7 +44,7 @@ function integrate(dif,a,b,precision)
     newSum = (b-a)*(dif(a) + dif(b))/2
     sum = 0
     n = 1
-    console.log(newSum);
+    // console.log(newSum);
     do
     {
         sum = newSum
@@ -61,4 +61,42 @@ function integrate(dif,a,b,precision)
     return newSum
 }
 
-console.log(integrate(dif,0,3.14,0.01))
+
+function chotaF(phi)
+{
+    return 1/math.sqrt(1 - 0.75*0.75*math.pow(math.sin(phi),2))
+}
+
+function FF(phi)
+{
+    return integrate(chotaF,0,phi,0.0001)
+}
+function chotaE(phi)
+{
+    return math.sqrt(1 - 0.75*0.75*math.pow(math.sin(phi),2))
+}
+
+function E(phiB)
+{
+    return integrate(chotaE,0,phiB,0.0001)
+}
+
+function x(phi)
+{
+    return 2*0.75*math.cos(phi)
+}
+function y(phi)
+{
+    return FF(3.14/2) - FF(phi) - 2*(E(3.14/2) - E(phi))
+}
+
+function psiToPhi(psi)
+ {
+     return math.asin(math.sin(3.14/4 + psi/2)/0.75)
+}
+
+for (var i = 0; i<100 ; i++)
+{
+    phi = 0.558 + (6*3.14/2 - 0.558)/100*i
+    console.log(x(phi));
+}
