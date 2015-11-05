@@ -25,7 +25,7 @@ function init() {
 	info.style.textAlign = 'center';
 	info.style.color = '#fff';
 	info.style.link = '#f80';
-	info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> warp-interlock webgl - geometry extrude shapes';
+	info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> angle-interlock webgl - geometry extrude shapes';
 	document.body.appendChild( info );
 
 	renderer = new THREE.WebGLRenderer();
@@ -75,10 +75,10 @@ var spi = .216+2.694307
       var points3d=[]
       for(var k=0;k<pts.length;k++)
       {
-        points3d = points3d.concat([new THREE.Vector3(pts[k].x,pts[k].y,2*a + 1/(bpi)*i)])
+        points3d = points3d.concat([new THREE.Vector3(pts[k]*100,0,0)])
       }
       for (var i = 0; i < stufferPoints.length; i++) {
-        stufferPoints[i]= new THREE.Vector3(stufferPoints[i].x*100,stufferPoints[i].y*100,stufferPoints[i].z*100)
+        stufferPoints[i]= new THREE.Vector3(stufferPoints[i].x,stufferPoints[i].y,stufferPoints[i].z)
       }
       stufferPoints = stufferPoints.concat(points3d)
 
