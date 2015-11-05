@@ -7,9 +7,10 @@ function createXnY(){
   for (var i = 0; i<100 ; i++)
   {
       phi = 0.558 + (6*3.14/2 - 0.558)/100*i
-      x_arr[i]=phi;
-      y_arr[i]=phi;
-      //console.log(x(phi));
+      //console.log()
+      x_arr[i]=x(phi);
+      y_arr[i]=y(phi);
+      console.log(x(phi));
   }
 }
 createXnY();
@@ -52,11 +53,10 @@ function init() {
 	         	// angleOfBinder
 	var a=22,ar=2
 	var b = a/ar
-	var minorBinderRad = 1.6*b
-	var majorBinderRad = a
+
 
 	var fpi = .216+2.694307
-	var bpi = 1/(2*majorBinderRad + 2*a)
+	var bpi = .216+2.694307
 	var interLayerDistance = (4*b)
 	var noOfLayers = 3
 	var noOfRepeats = 7
@@ -69,13 +69,13 @@ var spi = .216+2.694307
     var stufferPoints = []
 		for(var j=0; j<1 ; j++)
 		{
-            var pts=x_arr
+            //var pts=x_arr
     //  pts=pts.concat(curve.getPoints(10))
       //2D to 3D conversion
       var points3d=[]
-      for(var k=0;k<pts.length;k++)
+      for(var k=0;k<x_arr.length;k++)
       {
-        points3d = points3d.concat([new THREE.Vector3(pts[k]*100,0,0)])
+        points3d = points3d.concat([new THREE.Vector3(x_arr[k]*100,0,0)])
       }
       for (var i = 0; i < stufferPoints.length; i++) {
         stufferPoints[i]= new THREE.Vector3(stufferPoints[i].x,stufferPoints[i].y,stufferPoints[i].z)
