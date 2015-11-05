@@ -75,7 +75,7 @@ var spi = .216+2.694307
       var points3d=[]
       for(var k=0;k<x_arr.length;k++)
       {
-        points3d = points3d.concat([new THREE.Vector3(x_arr[k]*100,0,0)])
+        points3d = points3d.concat([new THREE.Vector3(x_arr[k]*100,y_arr[k]*100,0)])
       }
       for (var i = 0; i < stufferPoints.length; i++) {
         stufferPoints[i]= new THREE.Vector3(stufferPoints[i].x,stufferPoints[i].y,stufferPoints[i].z)
