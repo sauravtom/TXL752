@@ -3,13 +3,15 @@ var container;
 var camera, scene, renderer, controls;
 var x_arr=[];
 var y_arr=[];
+var noOfLayers = 3
+var noOfPieBy2 = 10
 function createXnY(){
   for (var i = 0; i<100 ; i++)
   {
-      phi = 0.558 + (6*3.14/2 - 0.558)/100*i
+      phi = 0.558 + (noOfPieBy2*3.14/2 - 0.558)/100*i
       //console.log()
-      x_arr[i]=x(phi);
-      y_arr[i]=y(phi);
+      x_arr[i]=x(phi)*100;
+      y_arr[i]=y(phi)*100;
       console.log(x(phi));
   }
 }
@@ -51,20 +53,19 @@ function init() {
 
 
 	         	// angleOfBinder
-	var a=22,ar=2
+	var a=45,ar=1
 	var b = a/ar
 
 
 	var fpi = .216+2.694307
 	var bpi = .216+2.694307
 	var interLayerDistance = (4*b)
-	var noOfLayers = 3
-	var noOfRepeats = 7
+
 
 	//stuffers
-var spi = .216+2.694307
+var spd = (.216+2.694307)*100/2
 
-	for (var i=0; i<1 ; i++ )
+	for (var i=0; i<5 ; i++ )
 	{
     var stufferPoints = []
 		for(var j=0; j<1 ; j++)
@@ -75,11 +76,16 @@ var spi = .216+2.694307
       var points3d=[]
       for(var k=0;k<x_arr.length;k++)
       {
-        points3d = points3d.concat([new THREE.Vector3(x_arr[k]*100,y_arr[k]*100,0)])
+        if (i%2 == 0)
+        {
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k],y_arr[k] + spd,spd*i)])
+        }
+        else
+        {
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k],y_arr[k],spd*i)])
+        }
       }
-      for (var i = 0; i < stufferPoints.length; i++) {
-        stufferPoints[i]= new THREE.Vector3(stufferPoints[i].x,stufferPoints[i].y,stufferPoints[i].z)
-      }
+
       stufferPoints = stufferPoints.concat(points3d)
 
       var closedSpline = new THREE.SplineCurve3(stufferPoints);
@@ -107,7 +113,57 @@ var spi = .216+2.694307
 
 		}
 	}
+  //fillers
+  var fpd = (.216+2.694307)*100/2
 
+  for (var i=0; i<5 ; i++ )
+  {
+    var fillerPoints = []
+    for(var j=0; j<1 ; j++)
+    {
+            //var pts=x_arr
+    //  pts=pts.concat(curve.getPoints(10))
+      //2D to 3D conversion
+      var points3d=[]
+      for(var k=0;k<x_arr.length;k++)
+      {
+        if (i%2 == 0)
+        {
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k]-fpd*3/2,fpd*i+fpd/2,y_arr[k] - fpd/2)])
+        }
+        else
+        {
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k]+fpd*3/2,fpd*i+fpd/2,y_arr[k]+fpd/2)])
+        }
+      }
+
+      fillerPoints = fillerPoints.concat(points3d)
+
+      var closedSpline = new THREE.SplineCurve3(fillerPoints);
+      var extrudeSettings = {
+        steps			: 100,
+        bevelEnabled	: false,
+        extrudePath		: closedSpline
+      };
+
+      var shape = new THREE.Shape();
+      shape.moveTo(0,a);
+      shape.quadraticCurveTo( b,a, b,0 );
+      shape.quadraticCurveTo( b,-a, 0,-a);
+      shape.quadraticCurveTo(-b,-a, -b,0 );
+      shape.quadraticCurveTo( -b,a, 0,a);
+
+
+      var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
+
+      var material = new THREE.MeshLambertMaterial( { color: 0xff00ff, wireframe: false } );
+
+      var mesh = new THREE.Mesh( geometry, material );
+
+      scene.add( mesh );
+
+    }
+  }
 
 
 
