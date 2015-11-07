@@ -3,26 +3,69 @@ var container;
 var camera, scene, renderer, controls;
 var x_arr=[];
 var y_arr=[];
+var phiArray=[];
 var noOfLayers = 3
 var noOfPieBy2 = 10
-theta1 = 3.14/6
+theta1 = 3.14/4.5
 var k = math.sin(3.14/4 + theta1/2)
 phiB = math.asin(k/math.sqrt(2))
-console.log(k);
+//phiB=0.558;
 function createXnY(){
   for (var i = 0; i<100 ; i++)
   {
       phi = phiB + (noOfPieBy2*3.14/2 - phiB)/100*i
-      //console.log()
-      x_arr[i]=x(phi)*100;
-      y_arr[i]=y(phi)*100;
-    //   console.log(x(phi));
+
+      if(math.abs(y(phi)*100 - y_arr[y_arr.length-1])<noOfPieBy2*2 || i ==0)//y_arr.length==0
+      {
+        x_arr.push(x(phi)*100);
+        y_arr.push(y(phi)*100);
+        phiArray.push(phi);
+      }
+
   }
 }
+function findPeriod()
+{
+    zeroes = []
+    for (var i = 0; i < x_arr.length; i++)
+    {
+
+        if (x_arr[i]>0 && x_arr[i+1]<0)
+        {
+            phi1 = phiArray[i]
+            phi2 = phiArray[i+1]
+            mid = (phi1+phi2)/2
+
+            //console.log(y_arr[i]);
+            //console.log(y_arr[i+1]);
+            while(math.abs(x(mid))>0.01){
+                if (x(mid)>0)
+                {
+                    phi1=mid
+                }
+                else {
+                    phi2=mid
+                }
+                mid = (phi1+phi2)/2
+            }
+            zeroes.push(y(mid))
+            if(zeroes.length==2)
+            {
+                break
+            }
+        }
+    }
+    //console.log(diff[0]-diff[1]);
+    return zeroes[1]-zeroes[0]
+
+}
 createXnY();
+var period =findPeriod()
+console.log(period)
+
 init();
 animate();
-
+console.log(x_arr.length);
 function init() {
 
 	var info = document.createElement( 'div' );
@@ -55,7 +98,7 @@ function init() {
 	var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 	scene.add( light );
 
-var h1 =( FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6)))*170
+var h1 =( FF(3.14/2) - FF(phiB) - 2*(E(3.14/2) - E(phiB)))*170
 	         	// angleOfBinder
 	var a=h1,ar=1
 	var b = h1
@@ -67,7 +110,8 @@ var h1 =( FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6)))*170
 
 
 	//stuffers
-var spd = (.216+2.694307)*100/2
+var spd =(period)*100/2//2*1.14*100//.216+2.694307
+console.log(spd*2/100 + " spd")
 
 	for (var i=0; i<5 ; i++ )
 	{
@@ -118,7 +162,7 @@ var spd = (.216+2.694307)*100/2
 		}
 	}
   //fillers
-  var fpd = (.216+2.694307)*100/2
+  var fpd = (period)*100/2//2*1.14*100//
 
   for (var i=0; i<5 ; i++ )
   {
@@ -133,7 +177,7 @@ var spd = (.216+2.694307)*100/2
       {
         if (i%2 == 0)
         {
-          points3d = points3d.concat([new THREE.Vector3(x_arr[k],fpd*i+fpd/2,y_arr[k] - fpd/2)])
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k],fpd*i+fpd/2,y_arr[k]-fpd/2)])
         }
         else
         {

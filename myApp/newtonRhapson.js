@@ -97,12 +97,50 @@ function psiToPhi(psi)
 var x_arr= []
 var y_arr= []
 var phiB = math.asin(math.sqrt(0.75)/math.sqrt(2))
+var phiArray = []
+phiB=0.558
 for (var i = 0; i<100 ; i++)
 {
     phi = phiB + (10*3.14/2 - phiB)/100*i
-    x_arr.push(phi);
-    y_arr.push(phi);
-    console.log(x(phi));
+    x_arr.push(x(phi));
+    y_arr.push(y(phi));
+    phiArray.push(phi);
 }
+function findPeriod()
+{
+    zeroes = []
+    for (var i = 0; i < x_arr.length; i++)
+    {
 
-var h1 = FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6))
+        if (x_arr[i]>0 && x_arr[i+1]<0)
+        {
+            phi1 = phiArray[i]
+            phi2 = phiArray[i+1]
+            mid = (phi1+phi2)/2
+
+            //console.log(y_arr[i]);
+            //console.log(y_arr[i+1]);
+            while(math.abs(x(mid))>0.01){
+                if (x(mid)>0)
+                {
+                    phi1=mid
+                }
+                else {
+                    phi2=mid
+                }
+                mid = (phi1+phi2)/2
+            }
+            zeroes.push(y(mid))
+            if(zeroes.length==2)
+            {
+                break
+            }
+        }
+    }
+    //console.log(diff[0]-diff[1]);
+    return zeroes[1]-zeroes[0]
+
+}
+console.log(x_arr.length);
+console.log(findPeriod() + " add")
+//var h1 = FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6))
