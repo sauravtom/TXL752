@@ -5,8 +5,8 @@ var x_arr=[];
 var y_arr=[];
 var phiArray=[];
 var noOfLayers = 3
-var noOfPieBy2 = 10
-theta1 = 3.14/4.5
+var noOfPieBy2 = 24
+theta1 = 3.14/7
 var k = math.sin(3.14/4 + theta1/2)
 phiB = math.asin(k/math.sqrt(2))
 //phiB=0.558;
@@ -17,7 +17,7 @@ function createXnY(){
 
       if(math.abs(y(phi)*100 - y_arr[y_arr.length-1])<noOfPieBy2*2 || i ==0)//y_arr.length==0
       {
-        x_arr.push(x(phi)*100);
+        x_arr.push(x(phi)*33);
         y_arr.push(y(phi)*100);
         phiArray.push(phi);
       }
@@ -93,7 +93,7 @@ function init() {
 	controls.minDistance = 20;
 	controls.maxDistance = 2200;
 
-	scene.add( new THREE.AmbientLight( 0xeee) );
+	scene.add( new THREE.AmbientLight( 0x00ff00) );
 
 	var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 	scene.add( light );
@@ -113,7 +113,7 @@ var h1 =( FF(3.14/2) - FF(phiB) - 2*(E(3.14/2) - E(phiB)))*170
 var spd =(period)*100/2//2*1.14*100//.216+2.694307
 console.log(spd*2/100 + " spd")
 
-	for (var i=0; i<5 ; i++ )
+	for (var i=0; i<12 ; i++ )
 	{
     var stufferPoints = []
 		for(var j=0; j<1 ; j++)
@@ -153,7 +153,7 @@ console.log(spd*2/100 + " spd")
 
 			var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
 
-			var material = new THREE.MeshLambertMaterial( { color: 0xff00ff, wireframe: false } );
+			var material = new THREE.MeshLambertMaterial( { color: 0x00ffff, wireframe: false } );
 
 			var mesh = new THREE.Mesh( geometry, material );
 
@@ -164,7 +164,7 @@ console.log(spd*2/100 + " spd")
   //fillers
   var fpd = (period)*100/2//2*1.14*100//
 
-  for (var i=0; i<5 ; i++ )
+  for (var i=0; i<12 ; i++ )
   {
     var fillerPoints = []
     for(var j=0; j<1 ; j++)
