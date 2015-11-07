@@ -96,12 +96,13 @@ function psiToPhi(psi)
 }
 var x_arr= []
 var y_arr= []
+var phiB = math.asin(math.sqrt(0.75)/math.sqrt(2))
 for (var i = 0; i<100 ; i++)
 {
-    phi = 0.558 + (6*3.14/2 - 0.558)/100*i
+    phi = phiB + (10*3.14/2 - phiB)/100*i
     x_arr.push(phi);
     y_arr.push(phi);
-    //console.log(x(phi));
+    console.log(x(phi));
 }
 
 var h1 = FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6))

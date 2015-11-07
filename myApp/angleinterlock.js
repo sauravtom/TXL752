@@ -5,14 +5,18 @@ var x_arr=[];
 var y_arr=[];
 var noOfLayers = 3
 var noOfPieBy2 = 10
+theta1 = 3.14/6
+var k = math.sin(3.14/4 + theta1/2)
+phiB = math.asin(k/math.sqrt(2))
+console.log(k);
 function createXnY(){
   for (var i = 0; i<100 ; i++)
   {
-      phi = 0.558 + (noOfPieBy2*3.14/2 - 0.558)/100*i
+      phi = phiB + (noOfPieBy2*3.14/2 - phiB)/100*i
       //console.log()
       x_arr[i]=x(phi)*100;
       y_arr[i]=y(phi)*100;
-      console.log(x(phi));
+    //   console.log(x(phi));
   }
 }
 createXnY();
@@ -51,7 +55,7 @@ function init() {
 	var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 	scene.add( light );
 
-var h1 =( FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6)))*175
+var h1 =( FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6)))*170
 	         	// angleOfBinder
 	var a=h1,ar=1
 	var b = h1
@@ -194,7 +198,7 @@ function integrate(dif,a,b,precision)
 
 function chotaF(phi)
 {
-    return 1/math.sqrt(1 - 0.75*0.75*math.pow(math.sin(phi),2))
+    return 1/math.sqrt(1 - (k*k)*(k*k)*math.pow(math.sin(phi),2))
 }
 
 function FF(phi)
@@ -203,7 +207,7 @@ function FF(phi)
 }
 function chotaE(phi)
 {
-    return math.sqrt(1 - 0.75*0.75*math.pow(math.sin(phi),2))
+    return math.sqrt(1 - (k*k)*(k*k)*math.pow(math.sin(phi),2))
 }
 
 function E(phiB)
@@ -213,7 +217,7 @@ function E(phiB)
 
 function x(phi)
 {
-    return 2*0.75*math.cos(phi)
+    return 2*(k*k)*math.cos(phi)
 }
 function y(phi)
 {
@@ -222,7 +226,7 @@ function y(phi)
 
 function psiToPhi(psi)
  {
-     return math.asin(math.sin(3.14/4 + psi/2)/0.75)
+     return math.asin(math.sin(3.14/4 + psi/2)/(k*k))
 }
 
 
