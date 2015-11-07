@@ -103,3 +103,5 @@ for (var i = 0; i<100 ; i++)
     y_arr.push(phi);
     //console.log(x(phi));
 }
+
+var h1 = FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6))

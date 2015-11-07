@@ -51,10 +51,10 @@ function init() {
 	var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 	scene.add( light );
 
-
+var h1 =( FF(3.14/2) - FF(3.14/6) - 2*(E(3.14/2) - E(3.14/6)))*175
 	         	// angleOfBinder
-	var a=45,ar=1
-	var b = a/ar
+	var a=h1,ar=1
+	var b = h1
 
 
 	var fpi = .216+2.694307
@@ -129,11 +129,11 @@ var spd = (.216+2.694307)*100/2
       {
         if (i%2 == 0)
         {
-          points3d = points3d.concat([new THREE.Vector3(x_arr[k]-fpd*3/2,fpd*i+fpd/2,y_arr[k] - fpd/2)])
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k],fpd*i+fpd/2,y_arr[k] - fpd/2)])
         }
         else
         {
-          points3d = points3d.concat([new THREE.Vector3(x_arr[k]+fpd*3/2,fpd*i+fpd/2,y_arr[k]+fpd/2)])
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k],fpd*i+fpd/2,y_arr[k]+fpd/2)])
         }
       }
 
