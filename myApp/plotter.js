@@ -2,12 +2,11 @@
 var container;
 
 var camera, scene, renderer, controls;
-
+var totalGeometry = new THREE.Geometry();
 init();
 animate();
 
 function init() {
-
 	var info = document.createElement( 'div' );
 	info.style.position = 'absolute';
 	info.style.top = '10px';
@@ -55,12 +54,12 @@ function init() {
 		for(var j=0; j<noOfRepeats ; j++)
 		{
 			var closedSpline = new THREE.SplineCurve3( [
-				new THREE.Vector3( 1/spi*j, interLayerDistance*i, -a ),
+				new THREE.Vector3( 1/spi*j, interLayerDistance*i, 0 ),
 				new THREE.Vector3( 1/spi*j, interLayerDistance*i, (noOfRepeats+1)/spi)
 			] );
 
 			var extrudeSettings = {
-				steps			: 100,
+				steps			: 20,
 				bevelEnabled	: false,
 				extrudePath		: closedSpline
 			};
@@ -74,8 +73,8 @@ function init() {
 
 
 			var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
-
-			var material = new THREE.MeshLambertMaterial( { color: 0xff00ff, wireframe: false } );
+			THREE.GeometryUtils.merge(totalGeometry, geometry);
+			var material = new THREE.MeshLambertMaterial( { color: 0xff0000, wireframe: false } );
 
 			var mesh = new THREE.Mesh( geometry, material );
 
@@ -251,7 +250,7 @@ binderPoints = binderPoints.concat(points3d)
 */
 
 		var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
-
+		THREE.GeometryUtils.merge(totalGeometry, geometry);
 		var material = new THREE.MeshLambertMaterial( { color: 0x00ff00, wireframe: false } );
 
 		var mesh = new THREE.Mesh( geometry, material );
@@ -268,12 +267,12 @@ binderPoints = binderPoints.concat(points3d)
 		for(var j=0; j<noOfLayers - 1 ; j++)
 		{
 			var closedSpline = new THREE.SplineCurve3( [
-				new THREE.Vector3( -(a), interLayerDistance*j+2*b, 1/fpi*i ),
+				new THREE.Vector3( 0, interLayerDistance*j+2*b, 1/fpi*i ),
 				new THREE.Vector3( (noOfRepeats-1)/spi, interLayerDistance*j+2*b, 1/fpi*i)
 			] );
 
 			var extrudeSettings = {
-				steps			: 100,
+				steps			: 20,
 				bevelEnabled	: false,
 				extrudePath		: closedSpline
 			};
@@ -287,7 +286,7 @@ binderPoints = binderPoints.concat(points3d)
 
 
 			var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings);
-
+			THREE.GeometryUtils.merge(totalGeometry, geometry);
 			var material = new THREE.MeshLambertMaterial( { color: 0x0000ff, wireframe: false } );
 
 			var mesh = new THREE.Mesh( geometry, material );
@@ -297,7 +296,7 @@ binderPoints = binderPoints.concat(points3d)
 		}
 	}
 
-
+	saveSTL(totalGeometry)
 }
 
 
@@ -308,5 +307,46 @@ function animate() {
 	controls.update();
 
 	renderer.render( scene, camera );
+
+}
+
+
+
+
+
+
+function stringifyVertex(vec){
+  return "vertex "+vec.x+" "+vec.y+" "+vec.z+" \n";
+}
+function stringifyVector(vec){
+  return ""+vec.x+" "+vec.y+" "+vec.z;
+}
+// Given a THREE.Geometry, create an STL string
+function generateSTL(geometry){
+  var vertices = geometry.vertices;
+  var tris     = geometry.faces;
+
+  var stl = "solid pixel\n";
+  for(var i = 0; i<tris.length; i++){
+    stl += ("facet normal "+stringifyVector( tris[i].normal )+" \n");
+    stl += ("outer loop \n");
+    stl += stringifyVertex( vertices[ tris[i].a ]);
+    stl += stringifyVertex( vertices[ tris[i].b ]);
+    stl += stringifyVertex( vertices[ tris[i].c ]);
+    stl += ("endloop \n");
+    stl += ("endfacet \n");
+  }
+  stl += ("endsolid");
+
+  return stl
+}
+
+// Use FileSaver.js 'saveAs' function to save the string
+function saveSTL( geometry, name ){
+  var stlString = generateSTL( geometry );
+
+  var blob = new Blob([stlString], {type: 'text/plain'});
+
+  saveAs(blob, name + '.stl');
 
 }

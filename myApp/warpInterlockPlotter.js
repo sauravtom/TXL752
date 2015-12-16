@@ -42,7 +42,7 @@ function init() {
 	         	// angleOfBinder
 	var a=22,ar=2
 	var b = a/ar
-	var minorBinderRad = 1.6*b
+	var minorBinderRad = 1.0*b
 	var majorBinderRad = a
 
 	var fpi = 1/(2*majorBinderRad + 2*a)

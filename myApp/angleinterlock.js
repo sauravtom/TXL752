@@ -5,8 +5,8 @@ var x_arr=[];
 var y_arr=[];
 var phiArray=[];
 var noOfLayers = 3
-var noOfPieBy2 = 24
-theta1 = 3.14/7
+var noOfPieBy2 = 10
+theta1 = 3.14/8
 var k = math.sin(3.14/4 + theta1/2)
 phiB = math.asin(k/math.sqrt(2))
 //phiB=0.558;
@@ -91,7 +91,7 @@ function init() {
 
 	controls = new THREE.TrackballControls( camera, renderer.domElement );
 	controls.minDistance = 20;
-	controls.maxDistance = 2200;
+	controls.maxDistance = 10000;
 
 	scene.add( new THREE.AmbientLight( 0x00ff00) );
 
@@ -105,7 +105,7 @@ var h1 =( FF(3.14/2) - FF(phiB) - 2*(E(3.14/2) - E(phiB)))*170
 
 
 	var fpi = .216+2.694307
-	var bpi = .216+2.694307
+	var bpi = 100*2
 	var interLayerDistance = (4*b)
 
 
@@ -113,11 +113,12 @@ var h1 =( FF(3.14/2) - FF(phiB) - 2*(E(3.14/2) - E(phiB)))*170
 var spd =(period)*100/2//2*1.14*100//.216+2.694307
 console.log(spd*2/100 + " spd")
 
-	for (var i=0; i<12 ; i++ )
+	for (var i=0; i<5 ; i++ )
 	{
-    var stufferPoints = []
-		for(var j=0; j<1 ; j++)
+
+		for(var j=0; j<2 ; j++)
 		{
+            var stufferPoints = []
             //var pts=x_arr
     //  pts=pts.concat(curve.getPoints(10))
       //2D to 3D conversion
@@ -126,11 +127,11 @@ console.log(spd*2/100 + " spd")
       {
         if (i%2 == 0)
         {
-          points3d = points3d.concat([new THREE.Vector3(x_arr[k],y_arr[k] + spd,spd*i)])
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k]+bpi*j,y_arr[k] + spd,spd*i)])
         }
         else
         {
-          points3d = points3d.concat([new THREE.Vector3(x_arr[k],y_arr[k],spd*i)])
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k]+bpi*j,y_arr[k],spd*i)])
         }
       }
 
@@ -164,23 +165,41 @@ console.log(spd*2/100 + " spd")
   //fillers
   var fpd = (period)*100/2//2*1.14*100//
 
-  for (var i=0; i<12 ; i++ )
+  for (var i=0; i<5 ; i++ )
   {
-    var fillerPoints = []
-    for(var j=0; j<1 ; j++)
+
+    for(var j=0; j<2 ; j++)
     {
+        var fillerPoints = []
             //var pts=x_arr
     //  pts=pts.concat(curve.getPoints(10))
       //2D to 3D conversion
       var points3d=[]
       for(var k=0;k<x_arr.length;k++)
       {
-        if (i%2 == 0)
+        if (i%2 == 1)
         {
-          points3d = points3d.concat([new THREE.Vector3(x_arr[k],fpd*i+fpd/2,y_arr[k]-fpd/2)])
+          points3d = points3d.concat([new THREE.Vector3(x_arr[k]+bpi*j,fpd*i+fpd/2,y_arr[k]+fpd/2)])
         }
-        else
-        {
+        else if(i%2==0){
+            if(j==0){
+                if(k>5*x_arr.length/8 && k <x_arr.length*7/8){
+                    points3d = points3d.concat([new THREE.Vector3(x_arr[k]+bpi*j,fpd*i+fpd/2,y_arr[k]-1*fpd/2)])
+                    //points3d = points3d.concat([new THREE.Vector3(x_arr[k],fpd*i+fpd/2,y_arr[k]-fpd/2)])
+                }else{
+                    points3d = points3d.concat([new THREE.Vector3(x_arr[k]+bpi*(j+1) ,fpd*i+fpd/2,y_arr[k]-1*fpd/2)])
+                }
+            }else if(j==1){
+                if(k<5*x_arr.length/8 && k >x_arr.length*3/8){
+                    //points3d = points3d.concat([new THREE.Vector3(x_arr[k]+bpi*j,fpd*i+fpd/2,y_arr[k]+fpd/2)])
+                    //points3d = points3d.concat([new THREE.Vector3(x_arr[k],fpd*i+fpd/2,y_arr[k]-fpd/2)])
+                }else{
+    points3d = points3d.concat([new THREE.Vector3(0,0,0)])
+
+                }
+            }
+        }
+        else{
           points3d = points3d.concat([new THREE.Vector3(x_arr[k],fpd*i+fpd/2,y_arr[k]+fpd/2)])
         }
       }
